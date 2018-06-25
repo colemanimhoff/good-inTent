@@ -1,31 +1,46 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
+import HomeScreen from './screens/HomeScreen'
+import LogInScreen from './screens/LogInScreen'
+import SignUpScreen from './screens/SignUpScreen'
 
-export default class App extends React.Component {
+class App extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loggedIn: false,
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.font}>Good inTent</Text>
-        <Text style={styles.font}>Coming Soon</Text>
-      </View >
+      this.state.loggedIn
+        ? <AppNavigator />
+        : <AuthNavigator />
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#389E2A',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '50%',
-    width: '100%',
+const AuthNavigator = createSwitchNavigator({
+  LogIn: {
+    screen: LogInScreen,
+    title: 'Log In',
   },
-  font: {
-    color: '#fff',
-    fontSize: 20,
-    textShadowColor: '#333',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 1,
+  SignUp: {
+    screen: SignUpScreen,
+    title: 'Sign Up',
   },
 })
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    title: 'Home',
+  },
+  Auth: {
+    screen: AuthNavigator,
+  },
+})
+
+export default App
