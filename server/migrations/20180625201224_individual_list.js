@@ -15,7 +15,7 @@ exports.up = (knex, Promise) => {
             .index()
         table.boolean('accounted_for')
         table.integer('user_id')
-            .notNullable()
+            // .notNullable()
             .references('id')
             .inTable('users')
             .onDelete('CASCADE')
