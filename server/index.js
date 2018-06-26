@@ -1,7 +1,3 @@
-// TODO: INSTALL PRE-REQS: 
-//  npm install express cors body-parser morgan nodemon
-// Optional Extras: 
-//  npm install monk knex 
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -9,26 +5,31 @@ const cors = require('cors')
 const app = module.exports = express()
 const port = parseInt(process.env.PORT || 3000)
 
+const users = require('./api/users')
+const trips = require('./api/trips')
+const items = require('./api/items')
+const parties = require('./api/parties')
+const individualLists = require('./api/individualLists')
+const groupLists = require('./api/groupLists')
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan(process.env.NODE_ENV !== 'production' ? 'dev' : 'combined'))
 app.use(cors({ origin: true, credentials: true }))
-// Optional Static file handler:
-// app.use('/', express.static('./build'))
 
-// TODO: ADD (MOUNT) YOUR MIDDLEWARE (ROUTES) HERE:
-// Example: app.use('/api/kitten', require('./routes/kitten'))
+app.use('/users', users)
+app.use('/trips', trips)
+app.use('/items', items)
+app.use('/parties', parties)
+app.use('/lists/individual', individualLists)
+app.use('/lists/group', groupLists)
 
-app.get('/', (req, res) => res.send('Supppp!'))
-
-// These 2 `app.use` MUST be last `.use`'s
 app.use(notFound)
 app.use(errorHandler)
 
 function notFound(req, res, next) {
     const url = req.originalUrl
     if (!/favicon\.ico$/.test(url) && !/robots\.txt$/.test(url)) {
-        // Don't log less important (automatic) browser requests
         console.error('[404: Requested file not found] ', url)
     }
     res.status(404).send({ error: 'Url not found', status: 404, url })
