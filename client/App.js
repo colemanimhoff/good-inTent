@@ -30,6 +30,7 @@ const AuthNavigator = createSwitchNavigator({
   SignUp: {
     screen: SignUpScreen,
     title: 'Sign Up',
+
   },
 })
 

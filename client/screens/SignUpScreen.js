@@ -9,6 +9,7 @@ class SignUpScreen extends Component {
     }
 
     render() {
+        console.log(this.props.navigation)
         return (
             <View style={styles.container}>
                 <SignUpForm />
