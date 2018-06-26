@@ -10,7 +10,7 @@ class SignUpScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            < View style={styles.container} >
                 <SignUpForm />
                 <Button title="Back To Log In"
                     onPress={() => this.props.navigation.navigate('LogIn')} />
