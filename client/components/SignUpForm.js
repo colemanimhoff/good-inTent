@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base'
+import { Container, Content, Form, Item, Input, Label, Button, Text, H1 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class SignUpForm extends Component {
@@ -8,7 +8,8 @@ export default class SignUpForm extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <Container style={styles.container}>
+                    return <Container>
+                        <H1>Good inTent</H1>
                         <Content>
                             <Form>
                                 <Item stackedLabel>
@@ -40,8 +41,9 @@ export default class SignUpForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        top: 100,
+    image: {
+        height: '50%',
+        width: '100%',
     },
     button: {
         width: '100%',

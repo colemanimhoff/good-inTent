@@ -44,7 +44,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#007f00',
+        backgroundColor: '#67AA56',
     },
     headerFont: {
         color: '#fff',

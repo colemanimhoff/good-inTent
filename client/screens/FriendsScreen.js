@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 import Friends from '../components/Friends'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { Header, Left, Right, Body, Title } from 'native-base'
 
 class FriendScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Friends />
-            </View>
+            <React.Fragment>
+                <Header style={styles.header}>
+                    <Left />
+                    <Body>
+                        <Title style={styles.headerFont}>Good inTent</Title>
+                    </Body>
+                    <Right />
+                </Header>
+                <View style={styles.container}>
+                    <Friends />
+                </View>
+            </React.Fragment>
         )
     }
 }
@@ -19,5 +29,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    header: {
+        backgroundColor: '#007f00',
+    },
+    headerFont: {
+        color: '#fff',
     },
 })

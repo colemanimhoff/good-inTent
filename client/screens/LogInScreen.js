@@ -18,7 +18,7 @@ class LogInScreen extends Component {
                     </Header>
                     <LogInForm />
                     <Button style={styles.button}
-                        title="Not A Member? Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
+                        title="Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
                 </View>
             </React.Fragment>
         )
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        backgroundColor: '#007f00',
+        backgroundColor: '#67aa56',
     },
     headerFont: {
         color: '#fff',

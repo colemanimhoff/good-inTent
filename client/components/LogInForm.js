@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base'
+import { StyleSheet } from 'react-native'
+import { Container, Content, Form, Item, Input, Label, Button, Text, H1 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class LogInForm extends Component {
@@ -8,9 +8,10 @@ export default class LogInForm extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <Container style={styles.container}>
+                    return <Container>
+                        <H1>Good inTent</H1>
                         <Content>
-                            <Form>
+                            <Form style={styles.form}>
                                 <Item stackedLabel>
                                     <Label>Email</Label>
                                     <Input />
@@ -35,8 +36,12 @@ export default class LogInForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        top: 100,
+    form: {
+
+    },
+    image: {
+        height: '50%',
+        width: '100%',
     },
     button: {
         width: '100%',

@@ -15,7 +15,7 @@ class SignUpScreen extends Component {
                     <Right />
                 </Header>
                 <SignUpForm />
-                <Button title="Log In"
+                <Button title="Back To Log In"
                     onPress={() => this.props.navigation.navigate('LogIn')} />
             </View>
         )
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     header: {
-        backgroundColor: '#007f00',
+        backgroundColor: '#67aa56',
     },
     headerFont: {
         color: '#fff',

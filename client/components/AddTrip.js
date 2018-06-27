@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Container, Content, Form, Item, Label, Input, DatePicker } from 'native-base'
-// import { AppConsumer } from '../context/AppContext'
+import { Container, Content, Form, Item, Label, Input, DatePicker, ListItem, Right, Left, Radio } from 'native-base'
+import { AppConsumer } from '../context/AppContext'
 
 export default class AddTrip extends Component {
 
@@ -23,23 +23,24 @@ export default class AddTrip extends Component {
 
     render() {
         return (
+
             <Container>
                 <Content>
                     <Form>
                         <Item stackedLabel>
-                            <Label>Start Date</Label>
+                            <Label>Trip Name</Label>
                             <Input />
                         </Item>
                     </Form>
                     <Item stackedLabel>
-                        <Label style={styles.dateLabel}>Trip Name</Label>
+                        <Label style={styles.dateLabel}>Start Date</Label>
                         <DatePicker
                             defaultDate={new Date(2018, 6, 27)}
                             minimumDate={new Date(2018, 1, 1)}
                             maximumDate={new Date(2018, 12, 31)}
                             locale={'en'}
                             timeZoneOffsetInMinutes={undefined}
-                            modalTransparent={false}
+                            modalTransparent={true}
                             animationType={'fade'}
                             androidMode={'default'}
                             placeHolderText="Select Start Date"
@@ -56,7 +57,7 @@ export default class AddTrip extends Component {
                             maximumDate={new Date(2018, 12, 31)}
                             locale={'en'}
                             timeZoneOffsetInMinutes={undefined}
-                            modalTransparent={false}
+                            modalTransparent={true}
                             animationType={'fade'}
                             androidMode={'default'}
                             placeHolderText="Select End Date"
@@ -65,6 +66,27 @@ export default class AddTrip extends Component {
                             onDateChange={this.setDate}
                         />
                     </Item>
+                    <Item stackedLabel>
+                        <Label style={styles.dateLabel}>Add Friends</Label>
+                    </Item>
+                    <AppConsumer>
+                        {(context) => {
+                            return context.state.users.map(user => {
+                                return <ListItem key={user.id} selected={true} >
+                                    <Left>
+                                        <Text>{user.username}</Text>
+                                    </Left>
+                                    <Right>
+                                        <Radio
+                                            color={'#f0ad4e'}
+                                            selectedColor={'#5cb85c'}
+                                            selected={false}
+                                        />
+                                    </Right>
+                                </ListItem>
+                            })
+                        }}
+                    </AppConsumer>
                 </Content>
             </Container>
         )
@@ -73,6 +95,6 @@ export default class AddTrip extends Component {
 
 const styles = StyleSheet.create({
     dateLabel: {
-        paddingLeft: 10,
+        paddingLeft: 11,
     },
 })
