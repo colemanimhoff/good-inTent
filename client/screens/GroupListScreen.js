@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
+import GroupList from '../components/GroupList'
 import { View, Text, StyleSheet } from 'react-native'
-import Account from '../components/Account'
 
-class AccountScreen extends Component {
+class GroupListScreen extends Component {
 
     render() {
         return (
             <View style={styles.container}>
-                < Account />
+                <GroupList />
             </View>
         )
     }
 }
-export default AccountScreen
+
+export default GroupListScreen
 
 const styles = StyleSheet.create({
     container: {

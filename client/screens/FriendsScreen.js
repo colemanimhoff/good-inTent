@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
+import Friends from '../components/Friends'
 import { View, Text, StyleSheet } from 'react-native'
-import Account from '../components/Account'
 
-class AccountScreen extends Component {
+class FriendScreen extends Component {
 
     render() {
         return (
             <View style={styles.container}>
-                < Account />
+                <Friends />
             </View>
         )
     }
 }
-export default AccountScreen
+export default FriendScreen
 
 const styles = StyleSheet.create({
     container: {

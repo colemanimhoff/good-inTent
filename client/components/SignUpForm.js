@@ -41,7 +41,7 @@ export default class SignUpForm extends Component {
 
 const styles = StyleSheet.create({
     container: {
-
+        top: 100,
     },
     button: {
         width: '100%',

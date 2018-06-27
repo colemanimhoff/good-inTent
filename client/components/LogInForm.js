@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, SafeAreaView } from 'react-native'
 import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
@@ -8,9 +8,9 @@ export default class LogInForm extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <Container>
+                    return <Container style={styles.container}>
                         <Content>
-                            <Form style={styles.container}>
+                            <Form>
                                 <Item stackedLabel>
                                     <Label>Email</Label>
                                     <Input />
@@ -36,10 +36,7 @@ export default class LogInForm extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        margin: 'auto',
-        width: '100%',
-        height: '100%',
+        top: 100,
     },
     button: {
         width: '100%',

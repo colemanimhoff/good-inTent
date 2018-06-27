@@ -1,7 +1,10 @@
 import React from 'react'
 
+const usersUrl = 'https://good-intent.herokuapp.com/users'
+
 const inititalState = {
     loggedIn: true,
+    users: [],
 }
 
 export const AppContext = React.createContext()
@@ -14,6 +17,14 @@ export class AppProvider extends React.Component {
         this.state = inititalState
     }
 
+    componentDidMount() {
+        return fetch(usersUrl)
+            .then(response => response.json())
+            .then(users => this.setState({
+                users: users,
+            }))
+    }
+
     toggleAuthState = () => {
         this.setState({ loggedIn: !this.state.loggedIn })
     }
@@ -23,6 +34,7 @@ export class AppProvider extends React.Component {
             <AppContext.Provider value={{
                 state: {
                     loggedIn: this.state.loggedIn,
+                    users: this.state.users,
                     toggleAuthState: this.toggleAuthState,
                 },
             }}>

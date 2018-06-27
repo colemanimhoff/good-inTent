@@ -1,14 +1,23 @@
 import React from 'react'
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
+import {
+    createStackNavigator,
+    createSwitchNavigator,
+    createMaterialTopTabNavigator,
+    createBottomTabNavigator,
+} from 'react-navigation'
+import Icon from 'react-native-vector-icons/Entypo'
+import { AppConsumer } from '../context/AppContext'
 import LogInScreen from './LogInScreen'
 import SignUpScreen from './SignUpScreen'
 import HomeScreen from './HomeScreen'
+import FriendsScreen from './FriendsScreen'
 import AccountScreen from './AccountScreen'
-import { AppConsumer } from '../context/AppContext'
-import { Icon } from 'react-native-vector-icons/Feather'
+import AddTripScreen from './AddTripScreen'
+import IndividualListScreen from './IndividualListScreen'
+import GroupListScreen from './GroupListScreen'
+import TripDetailsScreen from './TripDetailsScreen'
 
-class App extends React.Component {
+export default class App extends React.Component {
 
     render() {
         return (
@@ -24,46 +33,137 @@ class App extends React.Component {
     }
 }
 
-const HomeNavigator = createMaterialBottomTabNavigator({
+const tripNavBarStyling = {
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+        activeTintColor: '#007F00',
+        inactiveTintColor: '#333',
+        style: {
+            backgroundColor: '#f2f2f2',
+        },
+        labelStyle: {
+            fontSize: 10,
+            bottom: 1,
+        },
+        indicatorStyle: {
+            height: 0,
+        },
+        showIcon: true,
+    },
+    headerMode: 'none',
+}
+
+const homeBarNavStyling = {
+    tabBarOptions: {
+        activeTintColor: '#007F00',
+        inactiveTintColor: '#333',
+        style: {
+            backgroundColor: '#f2f2f2',
+            height: 70,
+        },
+        labelStyle: {
+            fontSize: 10,
+            bottom: 10,
+        },
+    },
+    headerMode: 'none',
+}
+
+const CurrentTripNavigator = createMaterialTopTabNavigator({
+    IndividualList: {
+        screen: IndividualListScreen,
+        navigationOptions: {
+            tabBarLabel: 'My List',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="list" color={tintColor} size={24} />
+            ),
+        },
+    },
+    GroupList: {
+        screen: GroupListScreen,
+        navigationOptions: {
+            tabBarLabel: 'Group List',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="list" color={tintColor} size={24} />
+            ),
+        },
+    },
+    TripDetails: {
+        screen: TripDetailsScreen,
+        navigationOptions: {
+            tabBarLabel: 'Trip Details',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="compass" color={tintColor} size={24} />
+            ),
+        },
+    },
+}, tripNavBarStyling)
+
+const TripNavigator = createStackNavigator({
+    Home: HomeScreen,
+    AddTrip: AddTripScreen,
+    CurrentTrip: CurrentTripNavigator,
+},
+    {
+        mode: 'modal',
+        headerMode: 'none',
+    })
+
+TripNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+    if (navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible,
+    }
+}
+
+const HomeNavigator = createBottomTabNavigator({
     Home: {
-        screen: HomeScreen,
-        title: 'Home',
+        screen: TripNavigator,
+        navigationOptions: {
+            tabBarLabel: 'HOME',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="home" color={tintColor} size={24} />
+            ),
+        },
+    },
+    Friends: {
+        screen: FriendsScreen,
+        navigationOptions: {
+            tabBarLabel: 'FRIENDS',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="users" color={tintColor} size={24} />
+            ),
+        },
     },
     Account: {
         screen: AccountScreen,
-        title: 'Account',
-    },
-}, {
-        activeTintColor: 'red',
-        inactiveTintColor: 'green',
-        barStyle: {
-            backgroundColor: '#f5f5f5',
+        navigationOptions: {
+            tabBarLabel: 'ACCOUNT',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="cog" color={tintColor} size={24} />
+            ),
         },
-    })
+    },
+}, homeBarNavStyling)
 
 const AuthNavigator = createSwitchNavigator({
-    LogIn: {
-        screen: LogInScreen,
-        title: 'Log In',
-        tabBarIcon: ({ tintColor }) => {
-            <Icon name="home" color={tintColor} size={50} />
-        },
-    },
-    SignUp: {
-        screen: SignUpScreen,
-        title: 'Sign Up',
-    },
-})
-
-
+    LogIn: LogInScreen,
+    SignUp: SignUpScreen,
+},
+    {
+        headerMode: 'none',
+    }
+)
 
 const AppNavigator = createStackNavigator({
-    Home: {
-        screen: HomeNavigator,
-    },
-    Auth: {
-        screen: AuthNavigator,
-    },
-})
-
-export default App
+    Home: HomeNavigator,
+    Auth: AuthNavigator,
+},
+    {
+        headerMode: 'none',
+    }
+)

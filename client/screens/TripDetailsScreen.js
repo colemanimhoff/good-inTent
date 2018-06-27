@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
+import TripDetails from '../components/TripDetails'
 import { View, Text, StyleSheet } from 'react-native'
-import Account from '../components/Account'
 
-class AccountScreen extends Component {
-
+class TripDetailsScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                < Account />
+                <TripDetails />
             </View>
         )
     }
 }
-export default AccountScreen
+export default TripDetailsScreen
 
 const styles = StyleSheet.create({
     container: {
