@@ -9,13 +9,6 @@ class LogInScreen extends Component {
         return (
             <React.Fragment>
                 <View style={styles.container}>
-                    <Header style={styles.header}>
-                        <Left />
-                        <Body>
-                            <Title style={styles.headerFont}>Good inTent</Title>
-                        </Body>
-                        <Right />
-                    </Header>
                     <LogInForm />
                     <Button style={styles.button}
                         title="Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
@@ -29,11 +22,5 @@ export default LogInScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    header: {
-        backgroundColor: '#67aa56',
-    },
-    headerFont: {
-        color: '#fff',
     },
 })

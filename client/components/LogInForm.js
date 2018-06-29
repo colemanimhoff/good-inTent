@@ -8,8 +8,7 @@ export default class LogInForm extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <Container>
-                        <H1>Good inTent</H1>
+                    return <Container style={styles.container}>
                         <Content>
                             <Form style={styles.form}>
                                 <Item stackedLabel>
@@ -36,8 +35,7 @@ export default class LogInForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    form: {
-
+    container: {
     },
     image: {
         height: '50%',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import GroupList from '../components/GroupList'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 class GroupListScreen extends Component {
 

@@ -9,7 +9,6 @@ export default class SignUpForm extends Component {
             <AppConsumer>
                 {(context) => {
                     return <Container>
-                        <H1>Good inTent</H1>
                         <Content>
                             <Form>
                                 <Item stackedLabel>
@@ -41,6 +40,8 @@ export default class SignUpForm extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+    },
     image: {
         height: '50%',
         width: '100%',

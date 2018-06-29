@@ -1,20 +1,30 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/Entypo'
 import { View, StyleSheet, Text } from 'react-native'
-import { Container, Header, Left, Right, Body, Title, List, ListItem } from 'native-base'
+import { Container, List, ListItem } from 'native-base'
+import { AppConsumer } from '../context/AppContext'
+
+const tripsUrl = 'https://good-intent.herokuapp.com/trips'
 
 class HomeScreen extends Component {
+
+    // constructor(props) {
+    //     super(props)
+    //     this.state = {
+    //         trips: [],
+    //     }
+    // }
+
+    // componentDidMount() {
+    //     return fetch(tripsUrl)
+    //         .then(trips => trips.json())
+    //         .then(trips => this.setState({ trips: trips }))
+    // }
+
     render() {
         return (
-            <React.Fragment>
+            < React.Fragment >
                 <Container>
-                    <Header style={styles.header}>
-                        <Left />
-                        <Body>
-                            <Title style={styles.headerFont}>Good inTent</Title>
-                        </Body>
-                        <Right />
-                    </Header>
                     <List>
                         <ListItem>
                             <Text style={styles.label}>Add Trip</Text>
@@ -24,18 +34,29 @@ class HomeScreen extends Component {
                                 onPress={() => this.props.navigation.navigate('AddTrip')}>
                             </Icon>
                         </ListItem>
-                        <ListItem
-                            style={styles.trip}
-                            itemDivider
-                            title="Current Trip"
-                            onPress={() => this.props.navigation.navigate('CurrentTrip')}>
-                            <Text>Rocky Mountain National Park</Text>
-                        </ListItem>
+                        <AppConsumer>
+                            {(context) => {
+                                return context.state.trips.map(trip => {
+                                    return < ListItem
+                                        key={trip.id}
+                                        style={styles.trip}
+                                        itemDivider
+                                        title={trip.id}
+                                        onPress={() => {
+                                            context.state.getCurrentTrip(`${tripsUrl}/${trip.id}`)
+                                                .then(this.props.navigation.navigate('CurrentTrip'))
+                                                .catch(error => console.log(error))
+                                        }}>
+                                        <Text>{trip.name}</Text>
+                                    </ListItem>
+                                })
+                            }}
+                        </AppConsumer>
                     </List>
                     <View >
                     </View>
                 </Container>
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }
@@ -50,7 +71,7 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     icon: {
-        color: '#007f00',
+        color: '#67AA56',
     },
     label: {
         flex: 1,
@@ -58,5 +79,10 @@ const styles = StyleSheet.create({
     },
     trip: {
         height: 70,
+        margin: 3,
+        shadowOffset: { width: 3, height: 3 },
+        shadowColor: '#333',
+        shadowOpacity: 1.0,
+        borderRadius: 5,
     },
 })

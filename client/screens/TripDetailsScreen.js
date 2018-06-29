@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TripDetails from '../components/TripDetails'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 class TripDetailsScreen extends Component {
     render() {

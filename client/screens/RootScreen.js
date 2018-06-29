@@ -5,6 +5,8 @@ import {
     createMaterialTopTabNavigator,
     createBottomTabNavigator,
 } from 'react-navigation'
+import { StyleSheet } from 'react-native'
+import { Header, Left, Right, Body, Title } from 'native-base'
 import Icon from 'react-native-vector-icons/Entypo'
 import { AppConsumer } from '../context/AppContext'
 import LogInScreen from './LogInScreen'
@@ -21,14 +23,22 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <AppConsumer>
-                {(context) => {
-                    return context.state.loggedIn
-                        ? <AppNavigator />
-                        : <AuthNavigator />
-                }}
-            </AppConsumer>
-
+            <React.Fragment>
+                <Header style={styles.header}>
+                    <Left />
+                    <Body>
+                        <Title style={styles.headerFont}>Good inTent</Title>
+                    </Body>
+                    <Right />
+                </Header>
+                <AppConsumer>
+                    {(context) => {
+                        return context.state.loggedIn
+                            ? <AppNavigator />
+                            : <AuthNavigator />
+                    }}
+                </AppConsumer>
+            </React.Fragment>
         )
     }
 }
@@ -36,8 +46,8 @@ export default class App extends React.Component {
 const tripNavBarStyling = {
     tabBarPosition: 'bottom',
     tabBarOptions: {
-        activeTintColor: '#007F00',
-        inactiveTintColor: '#333',
+        activeTintColor: '#67AA56',
+        inactiveTintColor: '#828282',
         style: {
             backgroundColor: '#f2f2f2',
         },
@@ -55,8 +65,8 @@ const tripNavBarStyling = {
 
 const homeBarNavStyling = {
     tabBarOptions: {
-        activeTintColor: '#007F00',
-        inactiveTintColor: '#333',
+        activeTintColor: '#67AA56',
+        inactiveTintColor: '#828282',
         style: {
             backgroundColor: '#f2f2f2',
             height: 70,
@@ -167,3 +177,12 @@ const AppNavigator = createStackNavigator({
         headerMode: 'none',
     }
 )
+
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#67AA56',
+    },
+    headerFont: {
+        color: '#fff',
+    },
+})

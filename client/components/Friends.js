@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native'
 import { AppConsumer } from '../context/AppContext'
 
 export default class Friends extends Component {
+
     render() {
         return (
             <Container style={styles.container}>
@@ -14,7 +15,7 @@ export default class Friends extends Component {
                                 return context.state.users.map(user => {
                                     return <ListItem avatar key={user.id}>
                                         <Left>
-                                            <Thumbnail source={{ uri: 'https://media.licdn.com/dms/image/C5603AQGnqcfTTZ4ceg/profile-displayphoto-shrink_200_200/0?e=1535587200&v=beta&t=vQOb745DwP6yW3NH02x_bh6SEnBmvFpun4jzIsOgh10' }} />
+                                            <Thumbnail source={{ uri: user.avatarUrl }} />
                                         </Left>
                                         <Body>
                                             <Text>{user.username}</Text>

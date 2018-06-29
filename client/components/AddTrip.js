@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Container, Content, Form, Item, Label, Input, DatePicker, ListItem, Right, Left, Radio } from 'native-base'
+import { StyleSheet, Text } from 'react-native'
+import { H3, Container, Content, Form, Item, Label, Input, DatePicker, ListItem, Right, Left, Radio } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class AddTrip extends Component {
@@ -23,9 +23,9 @@ export default class AddTrip extends Component {
 
     render() {
         return (
-
             <Container>
                 <Content>
+                    <H3 style={styles.heading}>Add Trip</H3>
                     <Form>
                         <Item stackedLabel>
                             <Label>Trip Name</Label>
@@ -40,7 +40,7 @@ export default class AddTrip extends Component {
                             maximumDate={new Date(2018, 12, 31)}
                             locale={'en'}
                             timeZoneOffsetInMinutes={undefined}
-                            modalTransparent={true}
+                            modalTransparent={false}
                             animationType={'fade'}
                             androidMode={'default'}
                             placeHolderText="Select Start Date"
@@ -57,7 +57,7 @@ export default class AddTrip extends Component {
                             maximumDate={new Date(2018, 12, 31)}
                             locale={'en'}
                             timeZoneOffsetInMinutes={undefined}
-                            modalTransparent={true}
+                            modalTransparent={false}
                             animationType={'fade'}
                             androidMode={'default'}
                             placeHolderText="Select End Date"
@@ -96,5 +96,8 @@ export default class AddTrip extends Component {
 const styles = StyleSheet.create({
     dateLabel: {
         paddingLeft: 11,
+    },
+    heading: {
+        textAlign: 'center',
     },
 })
