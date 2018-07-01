@@ -43,27 +43,7 @@ export default class App extends React.Component {
     }
 }
 
-const tripNavBarStyling = {
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-        activeTintColor: '#67AA56',
-        inactiveTintColor: '#828282',
-        style: {
-            backgroundColor: '#f2f2f2',
-        },
-        labelStyle: {
-            fontSize: 10,
-            bottom: 1,
-        },
-        indicatorStyle: {
-            height: 0,
-        },
-        showIcon: true,
-    },
-    headerMode: 'none',
-}
-
-const homeBarNavStyling = {
+const navBarStyling = {
     tabBarOptions: {
         activeTintColor: '#67AA56',
         inactiveTintColor: '#828282',
@@ -79,7 +59,7 @@ const homeBarNavStyling = {
     headerMode: 'none',
 }
 
-const CurrentTripNavigator = createMaterialTopTabNavigator({
+const CurrentTripNavigator = createBottomTabNavigator({
     IndividualList: {
         screen: IndividualListScreen,
         navigationOptions: {
@@ -107,7 +87,7 @@ const CurrentTripNavigator = createMaterialTopTabNavigator({
             ),
         },
     },
-}, tripNavBarStyling)
+}, navBarStyling)
 
 const TripNavigator = createStackNavigator({
     Home: HomeScreen,
@@ -158,7 +138,7 @@ const HomeNavigator = createBottomTabNavigator({
             ),
         },
     },
-}, homeBarNavStyling)
+}, navBarStyling)
 
 const AuthNavigator = createSwitchNavigator({
     LogIn: LogInScreen,

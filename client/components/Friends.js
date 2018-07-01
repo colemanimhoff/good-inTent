@@ -13,17 +13,13 @@ export default class Friends extends Component {
                         <AppConsumer>
                             {(context) => {
                                 return context.state.users.map(user => {
-                                    return <ListItem avatar key={user.id}>
+                                    return <ListItem avatar key={user.id} style={styles.friendsContainer}>
                                         <Left>
                                             <Thumbnail source={{ uri: user.avatarUrl }} />
                                         </Left>
                                         <Body>
                                             <Text>{user.username}</Text>
-                                            <Text> - </Text>
                                         </Body>
-                                        <Right>
-                                            <Text note>Trips: 1</Text>
-                                        </Right>
                                     </ListItem>
                                 })
                             }}
@@ -38,5 +34,8 @@ export default class Friends extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
+    },
+    friendsContainer: {
+        padding: 8,
     },
 })

@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
 import TripDetails from '../components/TripDetails'
-import { View, StyleSheet } from 'react-native'
+import { View, Button } from 'react-native'
 
-class TripDetailsScreen extends Component {
+export default class TripDetailsScreen extends Component {
     render() {
         return (
-            <View style={styles.container}>
+            <View>
+                <Button title="Back" onPress={() => this.props.navigation.popToTop()}></Button>
                 <TripDetails />
             </View>
         )
     }
 }
-export default TripDetailsScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-})

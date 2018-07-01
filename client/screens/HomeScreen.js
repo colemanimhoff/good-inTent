@@ -8,19 +8,6 @@ const tripsUrl = 'https://good-intent.herokuapp.com/trips'
 
 class HomeScreen extends Component {
 
-    // constructor(props) {
-    //     super(props)
-    //     this.state = {
-    //         trips: [],
-    //     }
-    // }
-
-    // componentDidMount() {
-    //     return fetch(tripsUrl)
-    //         .then(trips => trips.json())
-    //         .then(trips => this.setState({ trips: trips }))
-    // }
-
     render() {
         return (
             < React.Fragment >
@@ -34,6 +21,9 @@ class HomeScreen extends Component {
                                 onPress={() => this.props.navigation.navigate('AddTrip')}>
                             </Icon>
                         </ListItem>
+                        <ListItem>
+                            <Text style={styles.label}>Your Trips</Text>
+                        </ListItem>
                         <AppConsumer>
                             {(context) => {
                                 return context.state.trips.map(trip => {
@@ -44,7 +34,11 @@ class HomeScreen extends Component {
                                         title={trip.id}
                                         onPress={() => {
                                             context.state.getCurrentTrip(`${tripsUrl}/${trip.id}`)
-                                                .then(this.props.navigation.navigate('CurrentTrip'))
+                                                .then(() => {
+                                                    if (context.state.currentTrip.length === 1) {
+                                                        return this.props.navigation.navigate('CurrentTrip')
+                                                    }
+                                                })
                                                 .catch(error => console.log(error))
                                         }}>
                                         <Text>{trip.name}</Text>
@@ -79,8 +73,8 @@ const styles = StyleSheet.create({
     },
     trip: {
         height: 70,
-        margin: 3,
-        shadowOffset: { width: 3, height: 3 },
+        margin: 5,
+        shadowOffset: { width: 1, height: 1 },
         shadowColor: '#333',
         shadowOpacity: 1.0,
         borderRadius: 5,

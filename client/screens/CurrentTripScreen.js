@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import CurrentTrip from '../components/CurrentTrip'
-import { View, Button, StyleSheet } from 'react-native'
+import { View, Button } from 'react-native'
+import { Header, Body, Title } from 'native-base'
 
 class CurrentTripScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <Button title="Go Back Home" onPress={() => this.props.navigation.goBack()}></Button>
                 <CurrentTrip />
             </View>
@@ -14,11 +15,3 @@ class CurrentTripScreen extends Component {
     }
 }
 export default CurrentTripScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-})

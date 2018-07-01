@@ -1,24 +1,15 @@
 import React, { Component } from 'react'
 import GroupList from '../components/GroupList'
-import { View, StyleSheet } from 'react-native'
+import { View, Button } from 'react-native'
 
-class GroupListScreen extends Component {
+export default class GroupListScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
+                <Button title="Back" onPress={() => this.props.navigation.popToTop()}></Button>
                 <GroupList />
-            </View>
+            </View >
         )
     }
 }
-
-export default GroupListScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-})
