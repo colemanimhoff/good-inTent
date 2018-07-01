@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import { SwipeRow, Button, Icon, List, ListItem, H3 } from 'native-base'
+import { SwipeRow, Button, Icon, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class IndividualList extends Component {

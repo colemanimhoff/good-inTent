@@ -69,6 +69,17 @@ export class AppProvider extends React.Component {
             .then(response => response.json())
     }
 
+    editItem = (url, body) => {
+        return fetch(url, {
+            method: 'PUT',
+            headers: new Headers({
+                'content-type': 'application/json',
+            }),
+            body: JSON.stringify(body),
+        })
+            .then(response => response.json())
+    }
+
     checkOffItem = (clickedItem) => {
         let tripId = this.state.currentTrip[0].id
         let currentList = this.state.currentTrip[0].individualList
@@ -81,14 +92,8 @@ export class AppProvider extends React.Component {
             pending: null,
             claimed_by: currentItem[0].claimed_by,
         }
-        return fetch(`${individualListUrl}/${currentItem[0].id}`, {
-            method: 'PUT',
-            headers: new Headers({
-                'content-type': 'application/json',
-            }),
-            body: JSON.stringify(body),
-        })
-            .then(response => response.json())
+
+        return this.editItem(`${individualListUrl}/${currentItem[0].id}`, body)
             .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
             .catch(error => console.log(error))
     }
@@ -97,30 +102,24 @@ export class AppProvider extends React.Component {
         let tripId = this.state.currentTrip[0].id
         let currentList = this.state.currentTrip[0].individualList
         let currentItem = currentList.filter(currentItem => currentItem === clickedItem)
-        return fetch(`${individualListUrl}/${currentItem[0].id}`, {
-            method: 'PUT',
-            headers: new Headers({
-                'content-type': 'application/json',
-            }),
-            body: JSON.stringify({
-                trip_id: tripId,
-                item_id: currentItem[0].item_id,
-                accounted_for: false,
-                user_id: currentItem[0].user_id,
-                pending: true,
-                claimed_by: currentItem[0].claimed_by,
-            }),
-        })
-            .then(response => response.json())
+        let putBody = {
+            trip_id: tripId,
+            item_id: currentItem[0].item_id,
+            accounted_for: false,
+            user_id: currentItem[0].user_id,
+            pending: true,
+            claimed_by: currentItem[0].claimed_by,
+        }
+        let postBody = {
+            trip_id: tripId,
+            item_id: currentItem[0].item_id,
+            accounted_for: false,
+            user_id: currentItem[0].user_id,
+            pending: true,
+            claimed_by: currentItem[0].claimed_by,
+        }
+        return this.editItem(`${individualListUrl}/${currentItem[0].id}`, putBody)
             .then(response => {
-                let postBody = {
-                    trip_id: tripId,
-                    item_id: currentItem[0].item_id,
-                    accounted_for: false,
-                    user_id: currentItem[0].user_id,
-                    pending: true,
-                    claimed_by: currentItem[0].claimed_by,
-                }
                 if (response) {
                     return this.addItem(groupListUrl, postBody)
                 }
