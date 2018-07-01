@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import { SwipeRow, Button, Icon, List, ListItem, H3 } from 'native-base'
+import { SwipeRow, Button, Icon, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class GroupList extends Component {
@@ -41,22 +41,15 @@ export default class GroupList extends Component {
                                             leftOpenValue={75}
                                             rightOpenValue={-75}
                                             left={
-                                                <Button style={styles.button} success onPress={() => console.log(item)}>
+                                                <Button style={styles.button} success onPress={() => { context.state.claimItem(item) }}>
                                                     <Icon active name="add" />
                                                 </Button>
                                             }
                                             body={
                                                 <View style={styles.textWrapper}>
-                                                    <Text style={this.applyStyling(item.accounted_for, item.pending)}>{item.name}</Text>
-                                                    {/* {item.pending === true &&
-                                                        <View>
-                                                            <Text>
-                                                                {this.getUsername(context.state.currentTrip[0].partyMembers, item.user_id)}
-                                                            </Text>
-                                                            <Thumbnail source={{
-                                                                uri: this.getUserAvatar(context.state.currentTrip[0].partyMembers, item.user_id),
-                                                            }} />
-                                                        </View>} */}
+                                                    <Text style={this.applyStyling(item.accounted_for, item.pending)}>
+                                                        {item.name}
+                                                    </Text>
                                                 </View>
                                             }
                                         />

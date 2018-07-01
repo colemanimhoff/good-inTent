@@ -128,6 +128,28 @@ export class AppProvider extends React.Component {
             .catch(error => console.log(error))
     }
 
+    claimItem = (clickedItem) => {
+        let tripId = this.state.currentTrip[0].id
+        let currentList = this.state.currentTrip[0].groupList
+        let currentItem = currentList.filter(currentItem => currentItem === clickedItem)
+        let putBody = {
+            trip_id: tripId,
+            item_id: currentItem[0].item_id,
+            accounted_for: true,
+            user_id: currentItem[0].user_id,
+            pending: false,
+            claimed_by: currentItem[0].claimed_by,
+        }
+        return this.editItem(`${individualListUrl}/${currentItem[0].id}`, putBody)
+            .then(response => {
+                if (response) {
+                    return this.editItem(`${groupListUrl}/${currentItem[0].id}`, putBody)
+                }
+            })
+            .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
+            .catch(error => console.log(error))
+    }
+
     render() {
         return (
             <AppContext.Provider value={{
@@ -141,6 +163,7 @@ export class AppProvider extends React.Component {
                     getCurrentTrip: this.getCurrentTrip,
                     checkOffItem: this.checkOffItem,
                     moveItem: this.moveItem,
+                    claimItem: this.claimItem,
                 },
             }}>
                 {this.props.children}
