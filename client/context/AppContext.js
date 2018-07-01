@@ -8,7 +8,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 const inititalState = {
     loggedIn: true,
-    userId: 1,
+    userId: 10,
     trips: [],
     currentTrip: [],
     users: [],
@@ -37,10 +37,9 @@ export class AppProvider extends React.Component {
             }))
             .catch(error => console.log(error))
 
-        this.getData(tripsUrl)
-            .then(trips => this.setState({
-                trips: trips,
-            }))
+        this.getData(`${usersUrl}/${this.state.userId}`)
+            .then(user => user.map(props => props.tripsAttended)[0])
+            .then(trips => this.setState({ trips: trips }))
             .catch(error => console.log(error))
     }
 
@@ -138,7 +137,7 @@ export class AppProvider extends React.Component {
             accounted_for: true,
             user_id: currentItem[0].user_id,
             pending: false,
-            claimed_by: currentItem[0].claimed_by,
+            claimed_by: this.state.userId,
         }
         return this.editItem(`${individualListUrl}/${currentItem[0].id}`, putBody)
             .then(response => {
@@ -156,7 +155,7 @@ export class AppProvider extends React.Component {
                 state: {
                     loggedIn: this.state.loggedIn,
                     users: this.state.users,
-                    userId: 1,
+                    userId: this.state.userId,
                     trips: this.state.trips,
                     currentTrip: this.state.currentTrip,
                     toggleAuthState: this.toggleAuthState,
