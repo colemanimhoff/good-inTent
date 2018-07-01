@@ -1,20 +1,26 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import { SwipeRow, Button, Icon, List, ListItem } from 'native-base'
+import { SwipeRow, Button, Icon, List, ListItem, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class IndividualList extends Component {
+
+    applyStyling = (accountedFor, pending) => {
+        if (accountedFor === true) {
+            return styles.itemNameChecked
+        } else if (accountedFor === false && pending === true) {
+            return styles.itemNamePending
+        } else {
+            return styles.itemName
+        }
+    }
 
     render() {
         return (
             <AppConsumer>
                 {(context) => {
                     return <View style={styles.listWrapper}>
-                        <List>
-                            <ListItem>
-                                <Text>{context.state.currentTrip[0].name}</Text>
-                            </ListItem>
-                        </List>
+                        <H3 style={styles.itemName}>{context.state.currentTrip[0].name}</H3>
                         <ScrollView>
                             <AppConsumer>
                                 {(context) => {
@@ -35,16 +41,17 @@ export default class IndividualList extends Component {
                                             }
                                             body={
                                                 <View style={styles.textWrapper}>
-                                                    <Text style={
-                                                        item.accounted_for === true
-                                                            ? styles.itemNameChecked
-                                                            : styles.itemName
-                                                    }>{item.name}</Text>
+                                                    <Text
+                                                        style={this.applyStyling(item.accounted_for, item.pending)}>
+                                                        {item.name}
+                                                    </Text>
                                                 </View>
                                             }
                                             right={
-                                                <Button style={styles.button} danger onPress={() => alert('Trash')}>
-                                                    <Icon active name="trash" />
+                                                <Button
+                                                    style={styles.button}
+                                                    danger onPress={() => context.state.moveItem(item)}>
+                                                    <Icon active name="ios-move" />
                                                 </Button>
                                             }
                                         />
@@ -70,8 +77,8 @@ const styles = StyleSheet.create({
     },
 
     listWrapper: {
-        marginBottom: 155,
-        paddingBottom: 5,
+        height: '95%',
+        paddingBottom: 21,
     },
     listItem: {
         margin: 5,
@@ -81,16 +88,6 @@ const styles = StyleSheet.create({
         shadowColor: '#333',
         shadowOpacity: .8,
         borderRadius: 5,
-    },
-    listItemChecked: {
-        margin: 5,
-        width: '99%',
-        height: 70,
-        shadowOffset: { width: .15, height: .15 },
-        shadowColor: '#333',
-        shadowOpacity: .8,
-        borderRadius: 5,
-
     },
     button: {
         borderRadius: 5,
@@ -102,6 +99,11 @@ const styles = StyleSheet.create({
     itemNameChecked: {
         textAlign: 'center',
         color: '#67AA56',
+        fontWeight: 'bold',
+    },
+    itemNamePending: {
+        textAlign: 'center',
+        color: '#BF4744',
         fontWeight: 'bold',
     },
 })

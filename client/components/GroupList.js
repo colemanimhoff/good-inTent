@@ -1,19 +1,36 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import { SwipeRow, Button, Icon, Header, Title, Body } from 'native-base'
+import { SwipeRow, Button, Icon, List, ListItem, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class GroupList extends Component {
+
+    getUserAvatar = (partyMembers, id) => {
+        const currentUser = partyMembers.filter(member => member.id == id)
+        return currentUser[0].avatarUrl
+    }
+
+    getUsername = (partyMembers, id) => {
+        const currentUser = partyMembers.filter(member => member.id == id)
+        return currentUser[0].username
+    }
+
+    applyStyling = (accountedFor, pending) => {
+        if (accountedFor === true) {
+            return styles.itemNameChecked
+        } else if (accountedFor === false && pending === true) {
+            return styles.itemNamePending
+        } else {
+            return styles.itemName
+        }
+    }
+
     render() {
         return (
             <AppConsumer>
                 {(context) => {
                     return <React.Fragment>
-                        <Header style={styles.header} iosBarStyle="light-content">
-                            <Body>
-                                <Title style={styles.headerFont}>{context.state.currentTrip[0].name}</Title>
-                            </Body>
-                        </Header>
+                        <H3 style={styles.itemName}>{context.state.currentTrip[0].name}</H3>
                         <ScrollView style={styles.listWrapper}>
                             <AppConsumer>
                                 {(context) => {
@@ -24,19 +41,23 @@ export default class GroupList extends Component {
                                             leftOpenValue={75}
                                             rightOpenValue={-75}
                                             left={
-                                                <Button style={styles.button} success onPress={() => alert('Add')}>
+                                                <Button style={styles.button} success onPress={() => console.log(item)}>
                                                     <Icon active name="add" />
                                                 </Button>
                                             }
                                             body={
                                                 <View style={styles.textWrapper}>
-                                                    <Text style={styles.itemName}>{item.name}</Text>
+                                                    <Text style={this.applyStyling(item.accounted_for, item.pending)}>{item.name}</Text>
+                                                    {/* {item.pending === true &&
+                                                        <View>
+                                                            <Text>
+                                                                {this.getUsername(context.state.currentTrip[0].partyMembers, item.user_id)}
+                                                            </Text>
+                                                            <Thumbnail source={{
+                                                                uri: this.getUserAvatar(context.state.currentTrip[0].partyMembers, item.user_id),
+                                                            }} />
+                                                        </View>} */}
                                                 </View>
-                                            }
-                                            right={
-                                                <Button style={styles.button} danger onPress={() => alert('Trash')}>
-                                                    <Icon active name="trash" />
-                                                </Button>
                                             }
                                         />
                                     })
@@ -59,9 +80,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    textWrapperPending: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+
+    },
     listWrapper: {
-        marginBottom: 100,
-        paddingBottom: 5,
+        height: '95%',
+        paddingBottom: 21,
     },
     listItem: {
         margin: 5,
@@ -78,6 +106,16 @@ const styles = StyleSheet.create({
     },
     itemName: {
         textAlign: 'center',
+    },
+    itemNamePending: {
+        textAlign: 'center',
+        color: '#BF4744',
+        fontWeight: 'bold',
+    },
+    itemNameChecked: {
+        textAlign: 'center',
+        color: '#67AA56',
+        fontWeight: 'bold',
     },
     header: {
         padding: 0,

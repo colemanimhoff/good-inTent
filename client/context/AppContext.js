@@ -3,6 +3,7 @@ import React from 'react'
 const usersUrl = 'https://good-intent.herokuapp.com/users'
 const tripsUrl = 'https://good-intent.herokuapp.com/trips'
 const individualListUrl = `https://good-intent.herokuapp.com/lists/individual`
+const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 
 const inititalState = {
@@ -57,7 +58,42 @@ export class AppProvider extends React.Component {
             .catch(error => console.log(error))
     }
 
-    checkOffItem = (clickedItem, url) => {
+    addItem = (url, body) => {
+        return fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'content-type': 'application/json',
+            }),
+            body: JSON.stringify(body),
+        })
+            .then(response => response.json())
+    }
+
+    checkOffItem = (clickedItem) => {
+        let tripId = this.state.currentTrip[0].id
+        let currentList = this.state.currentTrip[0].individualList
+        let currentItem = currentList.filter(currentItem => currentItem === clickedItem)
+        let body = {
+            trip_id: tripId,
+            item_id: currentItem[0].item_id,
+            accounted_for: !(currentItem[0].accounted_for),
+            user_id: currentItem[0].user_id,
+            pending: null,
+            claimed_by: currentItem[0].claimed_by,
+        }
+        return fetch(`${individualListUrl}/${currentItem[0].id}`, {
+            method: 'PUT',
+            headers: new Headers({
+                'content-type': 'application/json',
+            }),
+            body: JSON.stringify(body),
+        })
+            .then(response => response.json())
+            .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
+            .catch(error => console.log(error))
+    }
+
+    moveItem = (clickedItem) => {
         let tripId = this.state.currentTrip[0].id
         let currentList = this.state.currentTrip[0].individualList
         let currentItem = currentList.filter(currentItem => currentItem === clickedItem)
@@ -69,12 +105,26 @@ export class AppProvider extends React.Component {
             body: JSON.stringify({
                 trip_id: tripId,
                 item_id: currentItem[0].item_id,
-                accounted_for: !(currentItem[0].accounted_for),
+                accounted_for: false,
                 user_id: currentItem[0].user_id,
+                pending: true,
                 claimed_by: currentItem[0].claimed_by,
             }),
         })
             .then(response => response.json())
+            .then(response => {
+                let postBody = {
+                    trip_id: tripId,
+                    item_id: currentItem[0].item_id,
+                    accounted_for: false,
+                    user_id: currentItem[0].user_id,
+                    pending: true,
+                    claimed_by: currentItem[0].claimed_by,
+                }
+                if (response) {
+                    return this.addItem(groupListUrl, postBody)
+                }
+            })
             .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
             .catch(error => console.log(error))
     }
@@ -91,6 +141,7 @@ export class AppProvider extends React.Component {
                     toggleAuthState: this.toggleAuthState,
                     getCurrentTrip: this.getCurrentTrip,
                     checkOffItem: this.checkOffItem,
+                    moveItem: this.moveItem,
                 },
             }}>
                 {this.props.children}

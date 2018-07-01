@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text } from 'react-native'
-import { Body, List, ListItem, Left, Thumbnail } from 'native-base'
+import { Body, List, ListItem, Left, Thumbnail, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class TripDetails extends Component {
@@ -18,6 +18,7 @@ export default class TripDetails extends Component {
                     const startDate = this.parseDate(context.state.currentTrip[0].start_date)
                     const endDate = this.parseDate(context.state.currentTrip[0].end_date)
                     return <React.Fragment>
+                        <H3 style={styles.itemName}>Your Trip</H3>
                         <List>
                             <ListItem itemDivider>
                                 <Text>Where</Text>
@@ -68,5 +69,8 @@ const styles = StyleSheet.create({
     },
     partyMemberContainer: {
         padding: 8,
+    },
+    itemName: {
+        textAlign: 'center',
     },
 })
