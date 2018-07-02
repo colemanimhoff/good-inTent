@@ -37,14 +37,18 @@ export class AppProvider extends React.Component {
             }))
             .catch(error => console.log(error))
 
-        this.getData(`${usersUrl}/${this.state.userId}`)
-            .then(user => user.map(props => props.tripsAttended)[0])
-            .then(trips => this.setState({ trips: trips }))
-            .catch(error => console.log(error))
+        this.getAllTrips(`${usersUrl}/${this.state.userId}`)
     }
 
     toggleAuthState = () => {
         return this.setState({ loggedIn: !this.state.loggedIn })
+    }
+
+    getAllTrips = (url) => {
+        this.getData(url)
+            .then(user => user.map(props => props.tripsAttended)[0])
+            .then(trips => this.setState({ trips: trips }))
+            .catch(error => console.log(error))
     }
 
     getCurrentTrip = (url) => {
@@ -66,6 +70,18 @@ export class AppProvider extends React.Component {
             body: JSON.stringify(body),
         })
             .then(response => response.json())
+    }
+
+    addTrip = (name, startDate, endDate) => {
+        let postBody = {
+            name: name,
+            start_date: startDate,
+            end_date: endDate,
+            user_id: this.state.userId,
+        }
+        return this.addItem(tripsUrl, postBody)
+            .then(this.getAllTrips(`${usersUrl}/${this.state.userId}`))
+            .catch(error => console.log(error))
     }
 
     editItem = (url, body) => {
@@ -150,6 +166,7 @@ export class AppProvider extends React.Component {
     }
 
     render() {
+        console.log()
         return (
             <AppContext.Provider value={{
                 state: {
@@ -160,9 +177,11 @@ export class AppProvider extends React.Component {
                     currentTrip: this.state.currentTrip,
                     toggleAuthState: this.toggleAuthState,
                     getCurrentTrip: this.getCurrentTrip,
+                    getAllTrips: this.getAllTrips,
                     checkOffItem: this.checkOffItem,
                     moveItem: this.moveItem,
                     claimItem: this.claimItem,
+                    addTrip: this.addTrip,
                 },
             }}>
                 {this.props.children}

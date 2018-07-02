@@ -27,7 +27,6 @@ export default class IndividualList extends Component {
                                     const myList = context.state.currentTrip[0].individualList.filter(item => {
                                         return item.user_id === context.state.userId
                                     })
-                                    console.log(myList)
                                     return myList.map(item => {
                                         return <SwipeRow
                                             key={item.id}
