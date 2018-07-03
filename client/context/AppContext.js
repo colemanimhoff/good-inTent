@@ -166,7 +166,7 @@ export class AppProvider extends React.Component {
             pending: false,
             claimed_by: this.state.userId,
         }
-        return this.editItem(`${individualListUrl}/${currentItem[0].id}`, putBody)
+        return this.editItem(`${groupListUrl}/${currentItem[0].id}`, putBody)
             .catch(error => console.log(error))
     }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, TextInput, Modal, ScrollView } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
 import {
     H3,
     Container,
@@ -19,6 +18,7 @@ import {
     Text,
     Radio,
 } from 'native-base'
+import Icon from 'react-native-vector-icons/Entypo'
 import { AppConsumer } from '../context/AppContext'
 
 const tripsUrl = `https://good-intent.herokuapp.com/trips`
@@ -114,12 +114,16 @@ export default class AddTripScreen extends Component {
                     {(context) => {
                         return <Container>
                             <H3 style={styles.heading}>Add Trip</H3>
-                            <View style={styles.iconContainer}>
-                                <Icon name="ios-arrow-back"
-                                    style={styles.icon}
-                                    size={35}
+                            <View
+                                style={styles.iconContainer}>
+                                <Text
+                                    style={styles.backLink}
                                     onPress={() => this.props.navigation.goBack()}>
-                                </Icon>
+                                    Back Home
+                                </Text>
+                            </View>
+                            <View style={styles.iconContainer}>
+                                <Icon color="#67AA56" name="basecamp" size={100}></Icon>
                             </View>
                             <Form>
                                 <Item stackedLabel name="name">
@@ -178,20 +182,20 @@ export default class AddTripScreen extends Component {
                                         <Header style={styles.header}>
                                             <Left />
                                             <Body>
-                                                <Title style={styles.headerFont}>Add Your Friends</Title>
+                                                <Title style={styles.headerFont}>Good inTent</Title>
                                             </Body>
                                             <Right />
                                         </Header>
-                                        <View style={styles.iconContainer}>
-                                            <Button
-                                                danger
-                                                style={styles.button}
+                                        <H3 style={styles.heading}>Add Your Friends</H3>
+                                        <View style={styles.buttonContainer}>
+                                            <Text
+                                                style={styles.backLink}
                                                 onPress={() => {
                                                     this.deleteTrip(`${tripsUrl}/${this.state.newTripId}`)
                                                     this.setModalVisible(!this.state.modalVisible)
                                                 }}>
-                                                <Text>Go Back</Text>
-                                            </Button>
+                                                Back Home
+                                            </Text>
                                         </View>
                                         <ScrollView style={styles.ScrollView}>
                                             {this.state.users.map(user => {
@@ -233,20 +237,22 @@ export default class AddTripScreen extends Component {
                                         </ScrollView>
                                     </View>
                                 </Modal>
-                                <Button
-                                    title="Add Friends"
-                                    style={styles.button}
-                                    success
-                                    onPress={() => {
-                                        context.state.addTrip(
-                                            this.state.name, this.state.start_date, this.state.end_date
-                                        )
-                                            .then(response => this.setState({ newTripId: response.id }))
-                                            .then(this.setModalVisible(true))
-                                            .catch(error => console.log(error))
-                                    }}>
-                                    <Text style={styles.buttonText}>Add Your Friends</Text>
-                                </Button>
+                                <View style={styles.buttonContainer}>
+                                    <Button
+                                        title="Add Friends"
+                                        style={styles.button}
+                                        success
+                                        onPress={() => {
+                                            context.state.addTrip(
+                                                this.state.name, this.state.start_date, this.state.end_date
+                                            )
+                                                .then(response => this.setState({ newTripId: response.id }))
+                                                .then(this.setModalVisible(true))
+                                                .catch(error => console.log(error))
+                                        }}>
+                                        <Text style={styles.buttonText}>Add Your Friends</Text>
+                                    </Button>
+                                </View>
                             </View>
                         </Container>
                     }}
@@ -262,7 +268,7 @@ const styles = StyleSheet.create({
     },
     heading: {
         textAlign: 'center',
-        padding: 5,
+        paddingTop: 5,
     },
     textInput: {
         width: '100%',
@@ -283,13 +289,14 @@ const styles = StyleSheet.create({
     headerFont: {
         color: '#fff',
     },
-    icon: {
-        color: '#007AFF',
-        padding: 2,
-    },
-    iconContainer: {
+    buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    backLink: {
+        color: '#007AFF',
+        fontSize: 20,
+        padding: 5,
     },
     button: {
         width: '100%',
@@ -301,5 +308,10 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         marginBottom: 125,
 
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
     },
 })

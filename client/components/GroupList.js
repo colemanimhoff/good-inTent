@@ -94,7 +94,7 @@ export default class GroupList extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <View style={styles.listWrapper}>
+                    return <View>
                         <H3 style={styles.itemName}>{context.state.currentTrip[0].name}</H3>
                         <View style={{ marginTop: 22 }}>
                             <Modal
@@ -107,10 +107,12 @@ export default class GroupList extends Component {
                                 <Container>
                                     <Header />
                                     <Button
-                                        danger
-                                        style={styles.button}
+                                        iconLeft
+                                        light
+                                        style={styles.backButton}
                                         onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-                                        <Text>Go Back</Text>
+                                        <Icon name='arrow-back' />
+                                        <Text> Back </Text>
                                     </Button>
                                     <Content>
                                         {this.state.items.map(item => {
@@ -164,7 +166,7 @@ export default class GroupList extends Component {
                                 <Text>Add Items</Text>
                             </Button>
                         </View>
-                        <ScrollView>
+                        <ScrollView style={styles.listContainer}>
                             <AppConsumer>
                                 {(context) => {
                                     return context.state.currentTrip[0].groupList.map(item => {
@@ -174,9 +176,21 @@ export default class GroupList extends Component {
                                             leftOpenValue={75}
                                             rightOpenValue={-75}
                                             left={
-                                                <Button style={styles.button} success onPress={() => {
-                                                    context.state.claimItem(item)
-                                                }}>
+                                                <Button style={styles.button}
+                                                    success
+                                                    onPress={() => {
+                                                        console.log(tripsUrl, context.state.currentTrip[0].id)
+                                                        return context.state.claimItem(item)
+                                                            .then(response => {
+                                                                if (response) {
+                                                                    return context.state.getCurrentTrip(
+                                                                        `${tripsUrl}/${context.state.currentTrip[0].id}`
+                                                                    )
+                                                                } else {
+                                                                    throw new Error('Couldn\'t Load Trip!')
+                                                                }
+                                                            })
+                                                    }}>
                                                     <Icon active name="add" />
                                                 </Button>
                                             }
@@ -250,5 +264,16 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    backButton: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    listContainer: {
+        marginBottom: 263,
+        height: '100%',
     },
 })

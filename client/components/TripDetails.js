@@ -3,6 +3,8 @@ import { StyleSheet, Text, ScrollView } from 'react-native'
 import { Body, List, ListItem, Left, Thumbnail, H3 } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
+const usersUrl = `https://good-intent.herokuapp.com/users`
+
 export default class TripDetails extends Component {
 
     parseDate = (date) => {
@@ -10,6 +12,12 @@ export default class TripDetails extends Component {
         splitDate = date.split('T')[0].split('-')
         return `${splitDate[1]}-${splitDate[2]}-${splitDate[0]}`
     }
+
+    // getAvatar = (url) => {
+    //     return fetch(`${url}`)
+    //         .then(response => response.json())
+    //         .then(response => response[0].avatarUrl)
+    // }
 
     render() {
         return (
@@ -52,16 +60,28 @@ export default class TripDetails extends Component {
                                 </AppConsumer>
                                 <AppConsumer>
                                     {(context) => {
-                                        console.log(context.state.currentTrip[0].groupList)
-                                        return <React.Fragment>
-                                            <ListItem itemDivider>
-                                                <Text>Unaccounted For Items</Text>
-                                            </ListItem>
-                                            <ListItem>
-                                                <Text></Text>
-                                            </ListItem>
-                                        </React.Fragment>
-                                    }}
+                                        return context.state.currentTrip[0].groupList.filter(item => {
+                                            return item.pending === true
+                                        })
+                                            .map(item => {
+                                                return <React.Fragment key="item.id">
+                                                    <ListItem itemDivider>
+                                                        <Text>Unaccounted For Items</Text>
+                                                    </ListItem>
+                                                    <ListItem>
+                                                        {/* <Left>
+                                                            <Thumbnail source={
+                                                                { uri: '' }
+                                                            } />
+                                                        </Left> */}
+                                                        <Body>
+                                                            <Text>{item.name}</Text>
+                                                        </Body>
+                                                    </ListItem>
+                                                </React.Fragment>
+                                            })
+                                    }
+                                    }
                                 </AppConsumer>
                             </List>
                         </ScrollView>

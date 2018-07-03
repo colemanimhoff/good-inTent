@@ -100,10 +100,12 @@ export default class IndividualList extends Component {
                                     <Container>
                                         <Header />
                                         <Button
-                                            danger
-                                            style={styles.button}
+                                            iconLeft
+                                            light
+                                            style={styles.backButton}
                                             onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-                                            <Text>Go Back</Text>
+                                            <Icon name='arrow-back' />
+                                            <Text> Back </Text>
                                         </Button>
                                         <Content>
                                             {this.state.items.map(item => {
@@ -159,7 +161,7 @@ export default class IndividualList extends Component {
                                     <Text>Add Items</Text>
                                 </Button>
                             </View>
-                            <ScrollView>
+                            <ScrollView style={styles.listContainer}>
                                 <AppConsumer>
                                     {(context) => {
                                         const myList = context.state.currentTrip[0].individualList.filter(item => {
@@ -249,6 +251,9 @@ const styles = StyleSheet.create({
         shadowOpacity: .8,
         borderRadius: 5,
     },
+    listContainer: {
+        marginBottom: 263,
+    },
     listItemRadio: {
         height: 60,
     },
@@ -274,5 +279,12 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    backButton: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
     },
 })

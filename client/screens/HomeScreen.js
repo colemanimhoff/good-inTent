@@ -13,14 +13,18 @@ class HomeScreen extends Component {
             < React.Fragment >
                 <Container>
                     <List>
-                        <ListItem>
-                            <Text style={styles.label}>Add Trip</Text>
-                            <Icon
-                                style={styles.icon}
-                                name="plus" size={45}
-                                onPress={() => this.props.navigation.navigate('AddTrip')}>
-                            </Icon>
-                        </ListItem>
+                        <AppConsumer>
+                            {(context) => {
+                                return <ListItem>
+                                    <Text style={styles.label}>Add Trip</Text>
+                                    <Icon
+                                        style={styles.icon}
+                                        name="plus" size={45}
+                                        onPress={() => this.props.navigation.navigate('AddTrip')}>
+                                    </Icon>
+                                </ListItem>
+                            }}
+                        </AppConsumer>
                         <ListItem>
                             <Text style={styles.label}>Your Trips</Text>
                         </ListItem>
