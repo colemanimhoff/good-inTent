@@ -64,6 +64,7 @@ export default class IndividualList extends Component {
     }
 
     postList = (url) => {
+        let clearList = []
         return fetch(url, {
             method: 'POST',
             headers: new Headers({
@@ -72,7 +73,13 @@ export default class IndividualList extends Component {
             body: JSON.stringify(this.state.list),
         })
             .then(response => response.json())
-            .then(response => console.log(response))
+            .then(response => {
+                if (response) {
+                    return this.setState({ list: clearList })
+                } else {
+                    throw new Error('List Couldn\'t Clear!')
+                }
+            })
     }
 
     render() {
