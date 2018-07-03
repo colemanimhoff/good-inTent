@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, StyleSheet, Button } from 'react-native'
 import SignUpForm from '../components/SignUpForm'
 
 class SignUpScreen extends Component {

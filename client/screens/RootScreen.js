@@ -2,7 +2,6 @@ import React from 'react'
 import {
     createStackNavigator,
     createSwitchNavigator,
-    createMaterialTopTabNavigator,
     createBottomTabNavigator,
 } from 'react-navigation'
 import { StyleSheet } from 'react-native'

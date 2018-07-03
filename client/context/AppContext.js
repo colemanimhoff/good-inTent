@@ -8,7 +8,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 const inititalState = {
     loggedIn: true,
-    userId: 10,
+    userId: 1,
     trips: [],
     currentTrip: [],
     users: [],
@@ -56,8 +56,19 @@ export class AppProvider extends React.Component {
             .then(trip => {
                 if (trip) {
                     return this.setState({ currentTrip: trip })
+                } else {
+                    throw new Error('Trip doesn\'t exist!')
                 }
             })
+    }
+
+    updateLists = (url, id) => {
+        return this.getCurrentTrip(url)
+            .then(response => response.json())
+            .then(response => this.setState({
+                currentIndividualList: response.individualList,
+                currentGroupList: response.groupList,
+            }))
             .catch(error => console.log(error))
     }
 
@@ -109,7 +120,6 @@ export class AppProvider extends React.Component {
         }
 
         return this.editItem(`${individualListUrl}/${currentItem[0].id}`, body)
-            .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
             .catch(error => console.log(error))
     }
 
@@ -137,9 +147,10 @@ export class AppProvider extends React.Component {
             .then(response => {
                 if (response) {
                     return this.addItem(groupListUrl, postBody)
+                } else {
+                    throw new Error('Couldn\'t Add Item!')
                 }
             })
-            .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
             .catch(error => console.log(error))
     }
 
@@ -156,32 +167,27 @@ export class AppProvider extends React.Component {
             claimed_by: this.state.userId,
         }
         return this.editItem(`${individualListUrl}/${currentItem[0].id}`, putBody)
-            .then(response => {
-                if (response) {
-                    return this.editItem(`${groupListUrl}/${currentItem[0].id}`, putBody)
-                }
-            })
-            .then(this.getCurrentTrip(`${tripsUrl}/${tripId}`))
             .catch(error => console.log(error))
     }
 
     render() {
-        console.log()
         return (
             <AppContext.Provider value={{
                 state: {
                     loggedIn: this.state.loggedIn,
+                    toggleAuthState: this.toggleAuthState,
                     users: this.state.users,
                     userId: this.state.userId,
                     trips: this.state.trips,
                     currentTrip: this.state.currentTrip,
-                    toggleAuthState: this.toggleAuthState,
+                    updateLists: this.updateLists,
                     getCurrentTrip: this.getCurrentTrip,
                     getAllTrips: this.getAllTrips,
                     checkOffItem: this.checkOffItem,
                     moveItem: this.moveItem,
                     claimItem: this.claimItem,
                     addTrip: this.addTrip,
+                    addItem: this.addItem,
                 },
             }}>
                 {this.props.children}

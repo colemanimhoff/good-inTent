@@ -3,6 +3,7 @@ exports.up = (knex, Promise) => {
         table.increments().primary()
         table.text('username')
         table.text('email')
+        table.text('avatarUrl')
     })
 }
 

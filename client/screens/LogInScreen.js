@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, StyleSheet, Button } from 'react-native'
 import LogInForm from '../components/LogInForm'
-import { Header, Left, Right, Body, Title } from 'native-base'
 
 class LogInScreen extends Component {
 

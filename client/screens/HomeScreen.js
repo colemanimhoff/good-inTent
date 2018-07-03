@@ -33,13 +33,14 @@ class HomeScreen extends Component {
                                         itemDivider
                                         title={trip.id}
                                         onPress={() => {
-                                            context.state.getCurrentTrip(`${tripsUrl}/${trip.id}`)
+                                            return context.state.getCurrentTrip(`${tripsUrl}/${trip.id}`)
                                                 .then(() => {
-                                                    if (context.state.currentTrip.length === 1) {
+                                                    if (context.state.currentTrip) {
                                                         return this.props.navigation.navigate('CurrentTrip')
+                                                    } else {
+                                                        throw new Error('Couldn\'t Load Trip')
                                                     }
                                                 })
-                                                .catch(error => console.log(error))
                                         }}>
                                         <Text>{trip.name}</Text>
                                     </ListItem>

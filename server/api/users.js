@@ -1,17 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const queries = require('../db/userQueries')
+const Users = require('../models/Users')
 
 router.get('/', (request, response) => {
-    return queries.list()
+    return Users.query()
+        .eager('[tripsAttended]')
         .then(users => response.json(users))
 })
 
 router.get('/:id', isValidId, (request, response) => {
-    return queries.read(request.params.id)
-        .then(user => {
-            if (user) {
-                return response.json(user)
+    return Users.query()
+        .where('users.id', request.params.id)
+        .eager('[tripsCreated, tripsAttended]')
+        .then(trip => {
+            if (trip.length > 0) {
+                return response.json(trip)
             } else {
                 return response.status(404)
                     .send({ message: 'User not found!' })

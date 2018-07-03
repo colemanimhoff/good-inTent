@@ -1,16 +1,23 @@
 const express = require('express')
 const router = express.Router()
 const queries = require('../db/tripQueries')
+const Trip = require('../models/Trip')
 
 router.get('/', (request, response) => {
-    return queries.list()
+    return Trip.query()
+        .eager('[creator, partyMembers, groupList, individualList]')
         .then(trips => response.json(trips))
 })
 
 router.get('/:id', isValidId, (request, response) => {
-    return queries.read(request.params.id)
+    return Trip.query()
+        .where('trip.id', request.params.id)
+        .eager('[creator, partyMembers, groupList, individualList]')
+        .modifyEager('creator', builder => {
+            builder.select('id', 'username', 'avatarUrl', )
+        })
         .then(trip => {
-            if (trip) {
+            if (trip.length > 0) {
                 return response.json(trip)
             } else {
                 return response.status(404)

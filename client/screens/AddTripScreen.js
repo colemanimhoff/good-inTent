@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, TextInput, Text, Modal } from 'react-native'
+import { StyleSheet, View, TextInput, Modal } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
 import {
     H3,
     Container,
@@ -11,13 +12,17 @@ import {
     Left,
     Thumbnail,
     ListItem,
+    Header,
+    Title,
+    Right,
+    Button,
+    Text,
 } from 'native-base'
 import Autocomplete from 'react-native-autocomplete-input'
 import { AppConsumer } from '../context/AppContext'
 
 const usersUrl = `https://good-intent.herokuapp.com/users`
 const partyUrl = `https://good-intent.herokuapp.com/parties`
-let newParty = []
 
 export default class AddTripScreen extends Component {
 
@@ -62,6 +67,7 @@ export default class AddTripScreen extends Component {
 
 
     addUser = (username) => {
+        let newParty = [...this.state.party]
         let currentUser = this.state.users.filter(user => user.username === username)
         let partyMember = {
             user_id: currentUser[0].id,
@@ -101,18 +107,26 @@ export default class AddTripScreen extends Component {
         const { query } = this.state
         const user = this.findFriend(query)
         const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim()
+        console.log({ query })
         return (
             <React.Fragment>
                 <AppConsumer>
                     {(context) => {
                         return <Container>
                             <H3 style={styles.heading}>Add Trip</H3>
-                            <Button title="Back" onPress={() => this.props.navigation.goBack()}></Button>
+                            <View style={styles.iconContainer}>
+                                <Icon name="ios-arrow-back"
+                                    style={styles.icon}
+                                    size={35}
+                                    onPress={() => this.props.navigation.goBack()}>
+                                </Icon>
+                            </View>
                             <Form>
                                 <Item stackedLabel name="name">
                                     <Label>Trip Name</Label>
                                 </Item>
                                 <TextInput
+                                    ref={input => { this.textInput = input }}
                                     style={styles.textInput}
                                     placeholder="Name Your Trip!"
                                     onChangeText={this.handleText}
@@ -160,11 +174,22 @@ export default class AddTripScreen extends Component {
                                     onRequestClose={() => {
                                         alert('Modal has been closed.')
                                     }}>
-                                    <View style={{ marginTop: 22 }}>
-                                        <Item stackedLabel>
-                                            <Label style={styles.dateLabel}>Add Friends</Label>
-                                        </Item>
-
+                                    <View>
+                                        <Header style={styles.header}>
+                                            <Left />
+                                            <Body>
+                                                <Title style={styles.headerFont}>Add Your Friends</Title>
+                                            </Body>
+                                            <Right />
+                                        </Header>
+                                        <View style={styles.iconContainer}>
+                                            <Button
+                                                danger
+                                                style={styles.button}
+                                                onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+                                                <Text>Go Back</Text>
+                                            </Button>
+                                        </View>
                                         <Autocomplete
                                             autoCapitalize="none"
                                             autoCorrect={false}
@@ -172,11 +197,11 @@ export default class AddTripScreen extends Component {
                                             containerStyle={styles.textInput}
                                             data={user.length === 1 && comp(query, user[0].username) ? [] : user}
                                             defaultValue={query}
-                                            onChangeText={text => this.setState({ query: text })}
+                                            onChangeText={text => { this.setState({ query: text }) }}
                                             placeholder="Add Your Friends!"
                                             renderItem={({ username, avatarUrl }) => (
                                                 <ListItem avatar style={styles.friendsContainer} onPress={() => {
-                                                    this.addUser(username)
+                                                    return this.addUser(username)
                                                 }}>
                                                     <Left>
                                                         <Thumbnail source={{ uri: avatarUrl }} />
@@ -187,12 +212,10 @@ export default class AddTripScreen extends Component {
                                                 </ListItem>
                                             )}
                                         />
-                                        <Button title="Back"
-                                            onPress={() => {
-                                                this.setModalVisible(!this.state.modalVisible)
-                                            }}>
-                                        </Button>
-                                        <Button title="Complete Your Trip"
+                                        <Button
+                                            style={styles.button}
+                                            success
+                                            title="Complete Your Trip"
                                             onPress={() => {
                                                 return this.postParty(context.state.userId)
                                                     .then(context.state.getAllTrips(
@@ -201,12 +224,15 @@ export default class AddTripScreen extends Component {
                                                     .then(this.props.navigation.goBack())
                                                     .catch(error => console.log(error))
                                             }}>
+                                            <Text style={styles.buttonText}>Complete Your Trip</Text>
                                         </Button>
                                     </View>
                                 </Modal>
 
                                 <Button
-                                    title="Create Trip"
+                                    title="Add Friends"
+                                    style={styles.button}
+                                    success
                                     onPress={() => {
                                         context.state.addTrip(
                                             this.state.name, this.state.start_date, this.state.end_date
@@ -215,7 +241,7 @@ export default class AddTripScreen extends Component {
                                             .then(this.setModalVisible(true))
                                             .catch(error => console.log(error))
                                     }}>
-                                    <Text>Add Your Friends</Text>
+                                    <Text style={styles.buttonText}>Add Your Friends</Text>
                                 </Button>
                             </View>
                         </Container>
@@ -243,5 +269,24 @@ const styles = StyleSheet.create({
     friendsContainer: {
         padding: 8,
     },
-
+    header: {
+        backgroundColor: '#67AA56',
+    },
+    headerFont: {
+        color: '#fff',
+    },
+    icon: {
+        color: '#007AFF',
+        padding: 2,
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })

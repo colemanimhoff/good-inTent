@@ -1,10 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const queries = require('../db/partyQueries')
+const Party = require('../models/Party')
 
 router.get('/', (request, response) => {
-    return queries.list()
-        .then(parties => response.json(parties))
+    return Party.query()
+        .eager('[trip, user]')
+        .modifyEager('user', builder => {
+            builder.select('id', 'username', 'avatarUrl')
+        })
+        .then(party => response.json(party))
 })
 
 router.get('/:id', isValidId, (request, response) => {
@@ -20,7 +25,7 @@ router.get('/:id', isValidId, (request, response) => {
 })
 
 router.post('/', (request, response, next) => {
-    validParty(request.body)
+    request.body
         ? queries.create(request.body)
             .then(parties => response.json(parties[0]))
         : next(new Error('Invalid Party!'))

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
-import { Container, Content, Form, Item, Input, Label, Button, Text, H1 } from 'native-base'
+import { StyleSheet, ScrollView } from 'react-native'
+import { Item, Input, Label, Button, Text } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 export default class LogInForm extends Component {
@@ -8,26 +8,22 @@ export default class LogInForm extends Component {
         return (
             <AppConsumer>
                 {(context) => {
-                    return <Container style={styles.container}>
-                        <Content>
-                            <Form style={styles.form}>
-                                <Item stackedLabel>
-                                    <Label>Email</Label>
-                                    <Input />
-                                </Item>
-                                <Item stackedLabel last>
-                                    <Label>Password</Label>
-                                    <Input secureTextEntry={true} />
-                                </Item>
-                                <Button
-                                    style={styles.button}
-                                    success
-                                    onPress={context.state.toggleAuthState}>
-                                    <Text> Log In </Text>
-                                </Button>
-                            </Form>
-                        </Content>
-                    </Container>
+                    return <ScrollView>
+                        <Item stackedLabel>
+                            <Label>Email</Label>
+                            <Input />
+                        </Item>
+                        <Item stackedLabel last>
+                            <Label>Password</Label>
+                            <Input secureTextEntry={true} />
+                        </Item>
+                        <Button
+                            style={styles.button}
+                            success
+                            onPress={context.state.toggleAuthState}>
+                            <Text> Log In </Text>
+                        </Button>
+                    </ScrollView>
                 }}
             </AppConsumer>
         )
@@ -35,15 +31,17 @@ export default class LogInForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-    },
     image: {
-        height: '50%',
-        width: '100%',
+        height: '33%',
+        width: '33%',
     },
     button: {
         width: '100%',
         height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    conatiner: {
         justifyContent: 'center',
         alignItems: 'center',
     },
