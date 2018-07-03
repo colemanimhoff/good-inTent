@@ -50,6 +50,19 @@ export default class TripDetails extends Component {
                                         })
                                     }}
                                 </AppConsumer>
+                                <AppConsumer>
+                                    {(context) => {
+                                        console.log(context.state.currentTrip[0].groupList)
+                                        return <React.Fragment>
+                                            <ListItem itemDivider>
+                                                <Text>Unaccounted For Items</Text>
+                                            </ListItem>
+                                            <ListItem>
+                                                <Text></Text>
+                                            </ListItem>
+                                        </React.Fragment>
+                                    }}
+                                </AppConsumer>
                             </List>
                         </ScrollView>
                     </React.Fragment>

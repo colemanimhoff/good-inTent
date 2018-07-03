@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, TextInput, Modal } from 'react-native'
+import { StyleSheet, View, TextInput, Modal, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {
     H3,
@@ -17,12 +17,14 @@ import {
     Right,
     Button,
     Text,
+    Radio,
 } from 'native-base'
-import Autocomplete from 'react-native-autocomplete-input'
 import { AppConsumer } from '../context/AppContext'
 
+const tripsUrl = `https://good-intent.herokuapp.com/trips`
 const usersUrl = `https://good-intent.herokuapp.com/users`
 const partyUrl = `https://good-intent.herokuapp.com/parties`
+let newParty = []
 
 export default class AddTripScreen extends Component {
 
@@ -33,7 +35,6 @@ export default class AddTripScreen extends Component {
             start_date: new Date(),
             end_date: new Date(),
             users: [],
-            query: '',
             party: [],
             newTripId: '',
             modalVisible: false,
@@ -65,12 +66,9 @@ export default class AddTripScreen extends Component {
         this.setState({ startDate: newDate })
     }
 
-
-    addUser = (username) => {
-        let newParty = [...this.state.party]
-        let currentUser = this.state.users.filter(user => user.username === username)
+    addUser = (newUser) => {
         let partyMember = {
-            user_id: currentUser[0].id,
+            user_id: newUser.id,
             trip_id: this.state.newTripId,
         }
         newParty.push(partyMember)
@@ -78,6 +76,7 @@ export default class AddTripScreen extends Component {
     }
 
     postParty = (hostId) => {
+        let clearParty = []
         let host = {
             user_id: hostId,
             trip_id: this.state.newTripId,
@@ -91,23 +90,24 @@ export default class AddTripScreen extends Component {
             body: JSON.stringify(totalParty),
         })
             .then(response => response.json())
+            .then(response => {
+                if (response) {
+                    return this.setState({ party: clearParty })
+                } else {
+                    throw new Error('Couldn\'t Clear Party!')
+                }
+            })
     }
 
-    findFriend(query) {
-        if (query === '') {
-            return []
-        }
-        const { users } = this.state
-        const regex = new RegExp(`${query.trim()}`, 'i')
-        return users.filter(user => user.username.search(regex) >= 0)
+    deleteTrip = (url) => {
+        return fetch(url, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .catch(error => console.log(error))
     }
-
 
     render() {
-        const { query } = this.state
-        const user = this.findFriend(query)
-        const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim()
-        console.log({ query })
         return (
             <React.Fragment>
                 <AppConsumer>
@@ -186,49 +186,53 @@ export default class AddTripScreen extends Component {
                                             <Button
                                                 danger
                                                 style={styles.button}
-                                                onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+                                                onPress={() => {
+                                                    this.deleteTrip(`${tripsUrl}/${this.state.newTripId}`)
+                                                    this.setModalVisible(!this.state.modalVisible)
+                                                }}>
                                                 <Text>Go Back</Text>
                                             </Button>
                                         </View>
-                                        <Autocomplete
-                                            autoCapitalize="none"
-                                            autoCorrect={false}
-                                            style={styles.textInput}
-                                            containerStyle={styles.textInput}
-                                            data={user.length === 1 && comp(query, user[0].username) ? [] : user}
-                                            defaultValue={query}
-                                            onChangeText={text => { this.setState({ query: text }) }}
-                                            placeholder="Add Your Friends!"
-                                            renderItem={({ username, avatarUrl }) => (
-                                                <ListItem avatar style={styles.friendsContainer} onPress={() => {
-                                                    return this.addUser(username)
-                                                }}>
+                                        <ScrollView style={styles.ScrollView}>
+                                            {this.state.users.map(user => {
+                                                return <ListItem
+                                                    onPress={() => this.addUser(user)}
+                                                    key={user.id}
+                                                    selected={true}>
                                                     <Left>
-                                                        <Thumbnail source={{ uri: avatarUrl }} />
+                                                        <Thumbnail source={{ uri: user.avatarUrl }} />
                                                     </Left>
                                                     <Body>
-                                                        <Text>{username}</Text>
+                                                        <Text style={styles.username}>{user.username}</Text>
                                                     </Body>
+                                                    <Right>
+                                                        <Radio
+                                                            color={'#f0ad4e'}
+                                                            selectedColor={'#5cb85c'}
+                                                            selected={this.state.party.filter(partyMember => {
+                                                                return partyMember.user_id === user.id
+                                                            }).length >= 1 ? true : false}
+                                                        />
+                                                    </Right>
                                                 </ListItem>
-                                            )}
-                                        />
-                                        <Button
-                                            style={styles.button}
-                                            success
-                                            title="Complete Your Trip"
-                                            onPress={() => {
-                                                return this.postParty(context.state.userId)
-                                                    .then(context.state.getAllTrips(
-                                                        `${usersUrl}/${context.state.userId}`
-                                                    ))
-                                                    .then(this.props.navigation.goBack())
-                                                    .catch(error => console.log(error))
-                                            }}>
-                                            <Text style={styles.buttonText}>Complete Your Trip</Text>
-                                        </Button>
+                                            })}
+                                            <Button
+                                                style={styles.button}
+                                                success
+                                                title="Complete Your Trip"
+                                                onPress={() => {
+                                                    return this.postParty(context.state.userId)
+                                                        .then(context.state.getAllTrips(
+                                                            `${usersUrl}/${context.state.userId}`
+                                                        ))
+                                                        .then(this.props.navigation.goBack())
+                                                        .catch(error => console.log(error))
+                                                }}>
+                                                <Text style={styles.buttonText}>Complete Your Trip</Text>
+                                            </Button>
+                                        </ScrollView>
                                     </View>
                                 </Modal>
-
                                 <Button
                                     title="Add Friends"
                                     style={styles.button}
@@ -269,6 +273,10 @@ const styles = StyleSheet.create({
     friendsContainer: {
         padding: 8,
     },
+    username: {
+        color: '#000',
+        width: '100%',
+    },
     header: {
         backgroundColor: '#67AA56',
     },
@@ -288,5 +296,10 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    ScrollView: {
+        flexGrow: 1,
+        marginBottom: 125,
+
     },
 })
