@@ -9,7 +9,7 @@ export default class LogInForm extends Component {
         return (
             <React.Fragment>
                 <View style={styles.iconContainer}>
-                    <Icon color="#67AA56" name="basecamp" size={100}></Icon>
+                    <Icon style={styles.logo} color="#67AA56" name="basecamp" size={100}></Icon>
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>Good inTent</Text>
@@ -29,7 +29,7 @@ export default class LogInForm extends Component {
                                 style={styles.button}
                                 success
                                 onPress={context.state.toggleAuthState}>
-                                <Text> Log In </Text>
+                                <Text style={styles.buttonText}> Log In </Text>
                             </Button>
                         </ScrollView>
                     }}
@@ -49,6 +49,14 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    buttonText: {
+        fontSize: 20,
+    },
+    logo: {
+        shadowOffset: { width: .15, height: .15 },
+        shadowColor: '#000',
+        shadowOpacity: .9,
     },
     textContainer: {
         justifyContent: 'center',

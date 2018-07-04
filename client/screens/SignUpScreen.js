@@ -8,7 +8,8 @@ class SignUpScreen extends Component {
             < View style={styles.container} >
                 <SignUpForm />
                 <Button title="Back To Log In"
-                    onPress={() => this.props.navigation.navigate('LogIn')} />
+                    onPress={() => this.props.navigation.navigate('LogIn')}
+                    style={styles.link} />
             </View>
         )
     }
@@ -18,12 +19,9 @@ export default SignUpScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
     },
-    header: {
-        backgroundColor: '#67aa56',
-    },
-    headerFont: {
-        color: '#fff',
+    link: {
+        fontSize: 20,
+        padding: 20,
     },
 })

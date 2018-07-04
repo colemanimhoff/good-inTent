@@ -9,7 +9,7 @@ class LogInScreen extends Component {
             <React.Fragment>
                 <View style={styles.container}>
                     <LogInForm />
-                    <Button style={styles.button}
+                    <Button style={styles.link}
                         title="Sign Up" onPress={() => this.props.navigation.navigate('SignUp')} />
                 </View>
             </React.Fragment>
@@ -21,5 +21,9 @@ export default LogInScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    link: {
+        fontSize: 20,
+        padding: 20,
     },
 })

@@ -123,7 +123,7 @@ export default class AddTripScreen extends Component {
                                 </Text>
                             </View>
                             <View style={styles.iconContainer}>
-                                <Icon color="#67AA56" name="basecamp" size={100}></Icon>
+                                <Icon style={styles.logo} color="#67AA56" name="basecamp" size={100}></Icon>
                             </View>
                             <Form>
                                 <Item stackedLabel name="name">
@@ -303,6 +303,11 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    logo: {
+        shadowOffset: { width: .15, height: .15 },
+        shadowColor: '#000',
+        shadowOpacity: .9,
     },
     ScrollView: {
         flexGrow: 1,

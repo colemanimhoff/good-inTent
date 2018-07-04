@@ -151,7 +151,7 @@ export default class GroupList extends Component {
                                                             ))
                                                             .then(this.setModalVisible(!this.state.modalVisible))
                                                     }}>
-                                                    <Text>Add Items!</Text>
+                                                    <Text style={styles.buttonText}>Add Items!</Text>
                                                 </Button>
                                             </View>
                                         </View>
@@ -162,49 +162,51 @@ export default class GroupList extends Component {
                                 success
                                 style={styles.button}
                                 onPress={() => this.setModalVisible(true)}>
-                                <Text>Add Items</Text>
+                                <Text style={styles.buttonText}>Add Items</Text>
                             </Button>
                         </View>
-                        <ScrollView style={styles.listContainer}>
-                            <AppConsumer>
-                                {(context) => {
-                                    return context.state.currentTrip[0].groupList.map(item => {
-                                        return <SwipeRow
-                                            key={item.id}
-                                            style={styles.listItem}
-                                            leftOpenValue={75}
-                                            rightOpenValue={-75}
-                                            left={
-                                                <Button style={styles.icon}
-                                                    success
-                                                    onPress={() => {
-                                                        console.log(tripsUrl, context.state.currentTrip[0].id)
-                                                        return context.state.claimItem(item)
-                                                            .then(response => {
-                                                                if (response) {
-                                                                    return context.state.getCurrentTrip(
-                                                                        `${tripsUrl}/${context.state.currentTrip[0].id}`
-                                                                    )
-                                                                } else {
-                                                                    throw new Error('Couldn\'t Load Trip!')
-                                                                }
-                                                            })
-                                                    }}>
-                                                    <Icon active name="add" />
-                                                </Button>
-                                            }
-                                            body={
-                                                <View style={styles.textWrapper}>
-                                                    <Text style={this.applyStyling(item.accounted_for, item.pending)}>
-                                                        {item.name}
-                                                    </Text>
-                                                </View>
-                                            }
-                                        />
-                                    })
-                                }}
-                            </AppConsumer>
-                        </ScrollView>
+                        <View style={styles.scrollViewContainer}>
+                            <ScrollView style={styles.listContainer}>
+                                <AppConsumer>
+                                    {(context) => {
+                                        return context.state.currentTrip[0].groupList.map(item => {
+                                            return <SwipeRow
+                                                key={item.id}
+                                                style={styles.listItem}
+                                                leftOpenValue={75}
+                                                rightOpenValue={-75}
+                                                left={
+                                                    <Button style={styles.icon}
+                                                        success
+                                                        onPress={() => {
+                                                            console.log(tripsUrl, context.state.currentTrip[0].id)
+                                                            return context.state.claimItem(item)
+                                                                .then(response => {
+                                                                    if (response) {
+                                                                        return context.state.getCurrentTrip(
+                                                                            `${tripsUrl}/${context.state.currentTrip[0].id}`
+                                                                        )
+                                                                    } else {
+                                                                        throw new Error('Couldn\'t Load Trip!')
+                                                                    }
+                                                                })
+                                                        }}>
+                                                        <Icon active name="add" />
+                                                    </Button>
+                                                }
+                                                body={
+                                                    <View style={styles.textWrapper}>
+                                                        <Text style={this.applyStyling(item.accounted_for, item.pending)}>
+                                                            {item.name}
+                                                        </Text>
+                                                    </View>
+                                                }
+                                            />
+                                        })
+                                    }}
+                                </AppConsumer>
+                            </ScrollView>
+                        </View>
                     </View>
                 }}
             </AppConsumer>
@@ -264,6 +266,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    buttonText: {
+        color: '#fff',
+        fontSize: 20,
+    },
     backLink: {
         color: '#007AFF',
         fontSize: 20,
@@ -273,5 +279,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
+    },
+    scrollViewContainer: {
+        height: '100%',
+        paddingBottom: '13%',
+        marginBottom: '2%',
     },
 })

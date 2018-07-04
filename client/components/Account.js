@@ -9,6 +9,7 @@ export default class Account extends Component {
                 {(context) => {
                     return <View>
                         <Button
+                            styles={styles.link}
                             onPress={context.state.toggleAuthState}
                             title="Sign Out"></Button>
                     </View>
@@ -17,3 +18,9 @@ export default class Account extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    link: {
+        fontSize: 20,
+    },
+})
