@@ -138,7 +138,7 @@ export default class AddTripScreen extends Component {
                                 <Item stackedLabel>
                                     <Label style={styles.dateLabel}>Start Date</Label>
                                     <DatePicker
-                                        defaultDate={new Date(2018, 6, 27)}
+                                        defaultDate={new Date(2018, 6, 6)}
                                         minimumDate={new Date(2018, 1, 1)}
                                         maximumDate={new Date(2018, 12, 31)}
                                         locale={'en'}
@@ -155,7 +155,7 @@ export default class AddTripScreen extends Component {
                                 <Item stackedLabel>
                                     <Label style={styles.dateLabel}>End Date</Label>
                                     <DatePicker
-                                        defaultDate={new Date(2018, 6, 27)}
+                                        defaultDate={new Date(2018, 6, 6)}
                                         minimumDate={new Date(2018, 1, 1)}
                                         maximumDate={new Date(2018, 12, 31)}
                                         locale={'en'}

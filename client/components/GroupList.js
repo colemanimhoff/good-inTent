@@ -106,14 +106,13 @@ export default class GroupList extends Component {
                                 }}>
                                 <Container>
                                     <Header />
-                                    <Button
-                                        iconLeft
-                                        light
-                                        style={styles.backButton}
-                                        onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-                                        <Icon name='arrow-back' />
-                                        <Text> Back </Text>
-                                    </Button>
+                                    <View style={styles.iconContainer}>
+                                        <Text
+                                            style={styles.backLink}
+                                            onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+                                            Back Home
+                                            </Text>
+                                    </View>
                                     <Content>
                                         {this.state.items.map(item => {
                                             return <ListItem
@@ -176,7 +175,7 @@ export default class GroupList extends Component {
                                             leftOpenValue={75}
                                             rightOpenValue={-75}
                                             left={
-                                                <Button style={styles.button}
+                                                <Button style={styles.icon}
                                                     success
                                                     onPress={() => {
                                                         console.log(tripsUrl, context.state.currentTrip[0].id)
@@ -222,24 +221,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    textWrapperPending: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
-    },
     listItem: {
         margin: 5,
-        width: '99%',
+        marginLeft: 2,
+        marginRight: 2,
         height: 70,
         shadowOffset: { width: .15, height: .15 },
         shadowColor: '#333',
         shadowOpacity: .8,
         borderRadius: 5,
     },
+    listContainer: {
+        marginBottom: 263,
+        height: '100%',
+    },
     listItemRadio: {
         height: 60,
+    },
+    icon: {
+        borderRadius: 5,
+        margin: 5,
     },
     itemName: {
         textAlign: 'center',
@@ -258,22 +259,19 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     button: {
-        borderRadius: 5,
-        margin: 5,
         width: '100%',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    backButton: {
-        width: '100%',
-        height: 50,
+    backLink: {
+        color: '#007AFF',
+        fontSize: 20,
+        padding: 5,
+    },
+    iconContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    listContainer: {
-        marginBottom: 263,
-        height: '100%',
+        padding: 10,
     },
 })

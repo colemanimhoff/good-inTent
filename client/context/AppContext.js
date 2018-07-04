@@ -9,6 +9,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 const inititalState = {
     loggedIn: true,
     userId: 1,
+    currentUser: '',
     trips: [],
     currentTrip: [],
     users: [],
@@ -35,9 +36,9 @@ export class AppProvider extends React.Component {
             .then(users => this.setState({
                 users: users,
             }))
+            .then(this.getAllTrips(`${usersUrl}/${this.state.userId}`))
+            .then(this.getUserInfo(`${usersUrl}/${this.state.userId}`))
             .catch(error => console.log(error))
-
-        this.getAllTrips(`${usersUrl}/${this.state.userId}`)
     }
 
     toggleAuthState = () => {
@@ -49,6 +50,11 @@ export class AppProvider extends React.Component {
             .then(user => user.map(props => props.tripsAttended)[0])
             .then(trips => this.setState({ trips: trips }))
             .catch(error => console.log(error))
+    }
+
+    getUserInfo = (url) => {
+        return this.getData(url)
+            .then(user => this.setState({ currentUser: user[0] }))
     }
 
     getCurrentTrip = (url) => {
@@ -178,6 +184,7 @@ export class AppProvider extends React.Component {
                     toggleAuthState: this.toggleAuthState,
                     users: this.state.users,
                     userId: this.state.userId,
+                    currentUser: this.state.currentUser,
                     trips: this.state.trips,
                     currentTrip: this.state.currentTrip,
                     updateLists: this.updateLists,

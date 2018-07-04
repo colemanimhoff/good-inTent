@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/Entypo'
 import { View, StyleSheet, Text } from 'react-native'
-import { Container, List, ListItem } from 'native-base'
+import { Container, List, ListItem, Left, Thumbnail } from 'native-base'
 import { AppConsumer } from '../context/AppContext'
 
 const tripsUrl = 'https://good-intent.herokuapp.com/trips'
@@ -16,7 +16,11 @@ class HomeScreen extends Component {
                         <AppConsumer>
                             {(context) => {
                                 return <ListItem>
-                                    <Text style={styles.label}>Add Trip</Text>
+                                    <Left>
+                                        <Thumbnail source={
+                                            { uri: context.state.currentUser.avatarUrl }
+                                        } />
+                                    </Left>
                                     <Icon
                                         style={styles.icon}
                                         name="plus" size={45}

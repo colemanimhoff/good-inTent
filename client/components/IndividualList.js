@@ -99,14 +99,13 @@ export default class IndividualList extends Component {
                                     }}>
                                     <Container>
                                         <Header />
-                                        <Button
-                                            iconLeft
-                                            light
-                                            style={styles.backButton}
-                                            onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-                                            <Icon name='arrow-back' />
-                                            <Text> Back </Text>
-                                        </Button>
+                                        <View style={styles.iconContainer}>
+                                            <Text
+                                                style={styles.backLink}
+                                                onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+                                                Back Home
+                                            </Text>
+                                        </View>
                                         <Content>
                                             {this.state.items.map(item => {
                                                 return <ListItem
@@ -244,7 +243,8 @@ const styles = StyleSheet.create({
     },
     listItem: {
         margin: 5,
-        width: '99%',
+        marginLeft: 2,
+        marginRight: 2,
         height: 70,
         shadowOffset: { width: .15, height: .15 },
         shadowColor: '#333',
@@ -253,6 +253,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         marginBottom: 263,
+        height: '100%',
     },
     listItemRadio: {
         height: 60,
@@ -280,11 +281,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    backButton: {
-        width: '100%',
-        height: 50,
+    backLink: {
+        color: '#007AFF',
+        fontSize: 20,
+        padding: 5,
+    },
+    iconContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        padding: 10,
     },
 })
