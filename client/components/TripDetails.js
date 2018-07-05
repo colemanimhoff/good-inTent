@@ -29,7 +29,8 @@ export default class TripDetails extends Component {
 
     getAvatar = (id) => {
         if (this.state.users.length > 0) {
-            return this.state.users.filter(user => user.id === id)[0].avatarUrl
+            const user = this.state.users.find(user => user.id === id)//.avatarUrl
+            if (user && user.avatarUrl) return user.avatarUrl
         } else {
             return 'pending'
         }
