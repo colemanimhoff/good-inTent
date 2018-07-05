@@ -8,7 +8,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 const inititalState = {
     loggedIn: true,
-    userId: 4,
+    userId: 6,
     currentUser: '',
     trips: [],
     currentTrip: [],

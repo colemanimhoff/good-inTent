@@ -81,7 +81,7 @@ export default class TripDetails extends Component {
                                     {<AppConsumer>
                                         {(context) => {
                                             return context.state.currentTrip[0].groupList.filter(item => {
-                                                return item.pending === true
+                                                return item.pending === true && item.accounted_for === false
                                             })
                                                 .map((item, index) => {
                                                     return <ListItem key={index} style={styles.items}>
