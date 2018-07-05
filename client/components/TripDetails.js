@@ -27,13 +27,13 @@ export default class TripDetails extends Component {
         return `${splitDate[1]}-${splitDate[2]}-${splitDate[0]}`
     }
 
-    // getAvatar = (id) => {
-    //     if (this.state.users.length > 0) {
-    //         return this.state.users.filter(user => user.id === id)[0].avatarUrl
-    //     } else {
-    //         return 'pending'
-    //     }
-    // }
+    getAvatar = (id) => {
+        if (this.state.users.length > 0) {
+            return this.state.users.filter(user => user.id === id)[0].avatarUrl
+        } else {
+            return 'pending'
+        }
+    }
 
     render() {
         return (
@@ -85,10 +85,10 @@ export default class TripDetails extends Component {
                                             })
                                                 .map((item, index) => {
                                                     return <ListItem key={index} style={styles.items}>
-                                                        {/* <Thumbnail source={
-                                                            { uri: this.getAvatar(item.user_id) }} /> */}
+                                                        <Thumbnail source={
+                                                            { uri: this.getAvatar(item.user_id) }} />
                                                         <Text style={styles.item}>{item.name}</Text>
-                                                        {/* {
+                                                        {
                                                             item.accounted_for
                                                                 ? <Thumbnail
                                                                     style={styles.thumbnailRight}
@@ -96,7 +96,7 @@ export default class TripDetails extends Component {
                                                                 : <Thumbnail
                                                                     style={styles.thumbnailRight}
                                                                     source={{ uri: 'pending' }} />
-                                                        } */}
+                                                        }
                                                     </ListItem>
                                                 })
                                         }

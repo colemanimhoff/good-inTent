@@ -30,7 +30,7 @@ export default class IndividualList extends Component {
                     }
                 })
             })
-            .then(items => this.setState({ items: items.sort() }))
+            .then(items => this.setState({ items: items }))
     }
 
     applyStyling = (accountedFor, pending) => {
@@ -107,9 +107,9 @@ export default class IndividualList extends Component {
                                             </Text>
                                         </View>
                                         <Content>
-                                            {this.state.items.map((item, index) => {
+                                            {this.state.items.map(item => {
                                                 return <ListItem
-                                                    key={index}
+                                                    key={item.id}
                                                     selected={true}
                                                     style={styles.listItemRadio}
                                                     onPress={() => {
@@ -164,9 +164,10 @@ export default class IndividualList extends Component {
                                 <ScrollView style={styles.listContainer}>
                                     <AppConsumer>
                                         {(context) => {
-                                            const myList = context.state.currentTrip[0].individualList.filter(item => {
-                                                return item.user_id === context.state.userId
-                                            })
+                                            const myList = context.state.currentTrip[0].individualList
+                                                .filter(item => {
+                                                    return item.user_id === context.state.userId
+                                                }).sort((a, b) => b.name === a.name ? 0 : b.name > a.name ? -1 : 1)
                                             return myList.map(item => {
                                                 return <SwipeRow
                                                     key={item.id}
