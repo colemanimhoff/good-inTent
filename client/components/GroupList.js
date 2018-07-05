@@ -30,7 +30,7 @@ export default class GroupList extends Component {
                     }
                 })
             })
-            .then(items => this.setState({ items: items }))
+            .then(items => this.setState({ items: items.sort() }))
     }
 
     getUserAvatar = (partyMembers, id) => {
@@ -169,9 +169,9 @@ export default class GroupList extends Component {
                             <ScrollView style={styles.listContainer}>
                                 <AppConsumer>
                                     {(context) => {
-                                        return context.state.currentTrip[0].groupList.map(item => {
+                                        return context.state.currentTrip[0].groupList.map((item, index) => {
                                             return <SwipeRow
-                                                key={item.id}
+                                                key={index}
                                                 style={styles.listItem}
                                                 leftOpenValue={75}
                                                 rightOpenValue={-75}
@@ -179,7 +179,6 @@ export default class GroupList extends Component {
                                                     <Button style={styles.icon}
                                                         success
                                                         onPress={() => {
-                                                            console.log(tripsUrl, context.state.currentTrip[0].id)
                                                             return context.state.claimItem(item)
                                                                 .then(response => {
                                                                     if (response) {

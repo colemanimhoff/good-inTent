@@ -8,7 +8,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 const inititalState = {
     loggedIn: true,
-    userId: 1,
+    userId: 4,
     currentUser: '',
     trips: [],
     currentTrip: [],
@@ -169,7 +169,7 @@ export class AppProvider extends React.Component {
             item_id: currentItem[0].item_id,
             accounted_for: true,
             user_id: currentItem[0].user_id,
-            pending: false,
+            pending: true,
             claimed_by: this.state.userId,
         }
         return this.editItem(`${groupListUrl}/${currentItem[0].id}`, putBody)

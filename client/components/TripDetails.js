@@ -11,6 +11,7 @@ export default class TripDetails extends Component {
         super(props)
         this.state = {
             users: [],
+
         }
     }
 
@@ -26,13 +27,13 @@ export default class TripDetails extends Component {
         return `${splitDate[1]}-${splitDate[2]}-${splitDate[0]}`
     }
 
-    getAvatar = (id) => {
-        if (this.state.users.length > 0) {
-            return this.state.users.filter(user => user.id === id)[0].avatarUrl
-        } else {
-            return 'notfound'
-        }
-    }
+    // getAvatar = (id) => {
+    //     if (this.state.users.length > 0) {
+    //         return this.state.users.filter(user => user.id === id)[0].avatarUrl
+    //     } else {
+    //         return 'pending'
+    //     }
+    // }
 
     render() {
         return (
@@ -77,26 +78,30 @@ export default class TripDetails extends Component {
                                     <ListItem itemDivider>
                                         <Text>Unaccounted For Items</Text>
                                     </ListItem>
-                                    <AppConsumer>
+                                    {<AppConsumer>
                                         {(context) => {
                                             return context.state.currentTrip[0].groupList.filter(item => {
                                                 return item.pending === true
                                             })
                                                 .map((item, index) => {
-                                                    this.getAvatar(item.user_id)
-                                                    return <ListItem key={index} style={styles.partyMemberContainer}>
-                                                        <Left>
-                                                            <Thumbnail source={
-                                                                { uri: this.getAvatar(item.user_id) }} />
-                                                        </Left>
-                                                        <Body>
-                                                            <Text>{item.name}</Text>
-                                                        </Body>
+                                                    return <ListItem key={index} style={styles.items}>
+                                                        {/* <Thumbnail source={
+                                                            { uri: this.getAvatar(item.user_id) }} /> */}
+                                                        <Text style={styles.item}>{item.name}</Text>
+                                                        {/* {
+                                                            item.accounted_for
+                                                                ? <Thumbnail
+                                                                    style={styles.thumbnailRight}
+                                                                    source={{ uri: this.getAvatar(item.claimed_by) }} />
+                                                                : <Thumbnail
+                                                                    style={styles.thumbnailRight}
+                                                                    source={{ uri: 'pending' }} />
+                                                        } */}
                                                     </ListItem>
                                                 })
                                         }
                                         }
-                                    </AppConsumer>
+                                    </AppConsumer>}
                                 </List>
                             </ScrollView>
                         </View>
@@ -132,4 +137,14 @@ const styles = StyleSheet.create({
         paddingBottom: '13%',
         marginBottom: '2%',
     },
+    items: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    // item: {
+    //     width: '100%',
+    // },
+    // thumbnailRight: {
+    //     marginLeft: 52,
+    // },
 })

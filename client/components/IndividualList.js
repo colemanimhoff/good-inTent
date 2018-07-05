@@ -30,7 +30,7 @@ export default class IndividualList extends Component {
                     }
                 })
             })
-            .then(items => this.setState({ items: items }))
+            .then(items => this.setState({ items: items.sort() }))
     }
 
     applyStyling = (accountedFor, pending) => {
@@ -107,9 +107,9 @@ export default class IndividualList extends Component {
                                             </Text>
                                         </View>
                                         <Content>
-                                            {this.state.items.map(item => {
+                                            {this.state.items.map((item, index) => {
                                                 return <ListItem
-                                                    key={item.id}
+                                                    key={index}
                                                     selected={true}
                                                     style={styles.listItemRadio}
                                                     onPress={() => {
