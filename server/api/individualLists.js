@@ -20,7 +20,7 @@ router.get('/:id', isValidId, (request, response) => {
 })
 
 router.post('/', (request, response, next) => {
-    validList(request.body)
+    request.body
         ? queries.create(request.body)
             .then(lists => response.json(lists[0]))
         : next(new Error('Invalid List!'))

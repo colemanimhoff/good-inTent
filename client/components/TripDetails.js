@@ -82,7 +82,7 @@ export default class TripDetails extends Component {
                                     {<AppConsumer>
                                         {(context) => {
                                             return context.state.currentTrip[0].groupList.filter(item => {
-                                                return item.pending === true && item.accounted_for === false
+                                                return item.pending || item.shared
                                             })
                                                 .map((item, index) => {
                                                     return <ListItem key={index} style={styles.items}>
@@ -90,7 +90,7 @@ export default class TripDetails extends Component {
                                                             { uri: this.getAvatar(item.user_id) }} />
                                                         <Text style={styles.item}>{item.name}</Text>
                                                         {
-                                                            item.accounted_for
+                                                            item.shared
                                                                 ? <Thumbnail
                                                                     style={styles.thumbnailRight}
                                                                     source={{ uri: this.getAvatar(item.claimed_by) }} />

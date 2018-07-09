@@ -5,6 +5,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
     {
@@ -13,6 +14,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
     {
@@ -21,6 +23,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
     {
@@ -29,6 +32,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
     {
@@ -37,6 +41,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
     {
@@ -45,6 +50,7 @@ module.exports = [
         accounted_for: false,
         user_id: null,
         pending: null,
+        shared: false,
         claimed_by: null,
     },
 ]

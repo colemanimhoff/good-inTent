@@ -17,7 +17,7 @@ module.exports = [
     },
     {
         trip_id: 2,
-        user_id: 8,
+        user_id: 9,
     },
     {
         trip_id: 2,

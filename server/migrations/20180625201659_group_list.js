@@ -20,6 +20,7 @@ exports.up = (knex, Promise) => {
             .onDelete('CASCADE')
             .index()
         table.boolean('pending')
+        table.boolean('shared')
         table.integer('claimed_by')
             .references('id')
             .inTable('users')

@@ -8,7 +8,7 @@ const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 const inititalState = {
     loggedIn: true,
-    userId: 6,
+    userId: 3,
     currentUser: '',
     trips: [],
     currentTrip: [],
@@ -164,15 +164,25 @@ export class AppProvider extends React.Component {
         let tripId = this.state.currentTrip[0].id
         let currentList = this.state.currentTrip[0].groupList
         let currentItem = currentList.filter(currentItem => currentItem === clickedItem)
-        let putBody = {
+        let putBodyGroup = {
+            trip_id: tripId,
+            item_id: currentItem[0].item_id,
+            accounted_for: true,
+            user_id: currentItem[0].user_id,
+            pending: false,
+            shared: false,
+            claimed_by: this.state.userId,
+        }
+        let putBodyShared = {
             trip_id: tripId,
             item_id: currentItem[0].item_id,
             accounted_for: true,
             user_id: currentItem[0].user_id,
             pending: true,
+            shared: true,
             claimed_by: this.state.userId,
         }
-        return this.editItem(`${groupListUrl}/${currentItem[0].id}`, putBody)
+        return this.editItem(`${groupListUrl}/${currentItem[0].id}`, currentItem.pending === false ? putBodyGroup : putBodyShared)
             .catch(error => console.log(error))
     }
 
