@@ -6,7 +6,7 @@ const individualListUrl = `https://good-intent.herokuapp.com/lists/individual`
 const groupListUrl = `https://good-intent.herokuapp.com/lists/group`
 
 
-const inititalState = {
+const initialState = {
     loggedIn: true,
     userId: 3,
     currentUser: '',
@@ -22,7 +22,7 @@ export class AppProvider extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = inititalState
+        this.state = initialState
     }
 
     getData = (url) => {
